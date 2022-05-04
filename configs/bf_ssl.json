@@ -1,0 +1,31 @@
+{
+    "exp_folder": "/proj/haste_berzelius/exps/specs_exps",
+    "exp_name": "bf_exps_1",
+    "exp_mode": "bt_ssl_chaug",
+    "data": {
+        "batch_size": 32
+    },
+    "train_configs": [
+        {
+            "train": {
+                "batch_size": 32,
+                "trainer": "SupConDistTrainer",
+                "epochs": 2000,
+                "init_lr": 0.2,
+                "wd": 1e-4
+            },
+            "test": {
+                "tester": "BaseTester",
+                "model_path": "model_best_accuracy.pth"
+            },
+            "model": {
+                "type": "ResNetSSL",
+                "args": {
+                    "in_channels": 6,
+                    "model_name": "resnet50",
+                    "num_classes": 10
+                }
+            }
+        }
+    ]
+}

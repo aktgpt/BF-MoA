@@ -1,0 +1,44 @@
+{
+    "exp_folder": "/proj/haste_berzelius/exps/specs_exps",
+    "exp_name": "vs_exps_1",
+    "exp_mode": "dual_attn_detach_ch_aug",
+    "data": {
+        "batch_size": 32
+    },
+    "train_configs": [
+        {
+            "train": {
+                "batch_size": 64,
+                "trainer": "DualAttnDistTrainer",
+                "epochs": 500,
+                "init_lr": 0.1,
+                "wd": 1e-4,
+                "milestones": [
+                    500,
+                    750
+                ]
+            },
+            "test": {
+                "tester": "DualAttnTester",
+                "model1_path": "model_best_accuracy_f.pth",
+                "model2_path": "model_best_accuracy_bf.pth"
+            },
+            "model1": {
+                "type": "MSABNResNet",
+                "args": {
+                    "in_channels": 5,
+                    "model_name": "resnet50",
+                    "num_classes": 10
+                }
+            },
+            "model2": {
+                "type": "MSABNResNet",
+                "args": {
+                    "in_channels": 6,
+                    "model_name": "resnet50",
+                    "num_classes": 10
+                }
+            }
+        }
+    ]
+}
