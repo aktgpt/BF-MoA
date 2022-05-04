@@ -39,12 +39,6 @@ def set_random_seed(seed):
     torch.backends.cudnn.deterministic = True
 
 
-train_csv_path = "stats/f_numpy_subset_train_split1.csv"
-valid_csv_path = "stats/f_numpy_subset_valid_split1.csv"
-train_bf_csv_path = "stats/bf_numpy_subset_train_split1.csv"
-valid_bf_csv_path = "stats/bf_numpy_subset_valid_split1.csv"
-dmso_stats_path = "stats/dmso_stats.csv"
-
 geo_transforms = aug.Compose(
     [
         aug.RandomCrop(1024, 1024),
@@ -57,10 +51,13 @@ geo_transforms = aug.Compose(
 colour_transforms = aug.PerChannel(
     aug.OneOf(
         [
-            aug.GaussianBlur(p=0.2),
-            aug.MotionBlur(p=0.2),
-            aug.GaussNoise(p=0.2),
-            aug.CoarseDropout(max_height=32, max_width=32, p=0.2),
+            aug.GaussianBlur(),
+            aug.MotionBlur(),
+            aug.MedianBlur(blur_limit=3),
+            aug.GaussNoise(var_limit=(0.1, 1.0)),
+            aug.CoarseDropout(
+                max_holes=32, max_height=32, max_width=32, min_height=16, min_width=16
+            ),
         ],
         p=0.2,
     ),
@@ -79,6 +76,7 @@ moas = [
     "ATPase inhibitor",
     "retinoid receptor agonist",
     "HSP inhibitor",
+    "dmso",
 ]
 
 
@@ -89,9 +87,9 @@ def app(config):
 
     train_dataset = FNPChAugDataset(
         root=config["data"]["data_folder"],
-        csv_file=train_csv_path,
-        bf_csv_file=train_bf_csv_path,
-        channels=[0],
+        csv_file=config["data"]["train_csv_path"],
+        bf_csv_file=config["data"]["train_bf_csv_path"],
+        #channels=[0],
         moas=moas,
         geo_transform=geo_transforms,
         colour_transform=colour_transforms,
@@ -99,18 +97,18 @@ def app(config):
     print(len(train_dataset))
     valid_dataset = FNPChAugDataset(
         root=config["data"]["data_folder"],
-        csv_file=valid_csv_path,
-        bf_csv_file=valid_bf_csv_path,
-        channels=[0],
+        csv_file=["data"]["val_csv_path"],
+        bf_csv_file=["data"]["val_bf_csv_path"],
+        #channels=[0],
         moas=moas,
         geo_transform=valid_transforms,
     )
     print(len(valid_dataset))
     test_dataset = FNPChAugDataset(
         root=config["data"]["data_folder"],
-        csv_file=valid_csv_path,
-        bf_csv_file=valid_bf_csv_path,
-        channels=[0],
+        csv_file=["data"]["test_csv_path"],
+        bf_csv_file=["data"]["test_bf_csv_path"],
+        #channels=[0],
         moas=moas,
         geo_transform=valid_transforms,
     )
@@ -131,15 +129,15 @@ def app(config):
         valid_loader = DataLoader(
             valid_dataset,
             batch_size=config["data"]["batch_size"],
-            num_workers=8,
-            prefetch_factor=4,
+            num_workers=32,
+            prefetch_factor=8,
             persistent_workers=True,
         )
         test_loader = DataLoader(
             test_dataset,
             batch_size=config["data"]["batch_size"],
-            num_workers=8,
-            prefetch_factor=4,
+            num_workers=16,
+            prefetch_factor=8,
             persistent_workers=True,
         )
         model = getattr(models, train_config["model"]["type"])(**train_config["model"]["args"])

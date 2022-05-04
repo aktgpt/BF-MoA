@@ -1,35 +1,34 @@
 {
-    "exp_folder": "/proj/haste_berzelius/exps/specs_phil",
+    "exp_folder": "/proj/haste_berzelius/exps/specs_final",
     "exp_name": "fl_exps_1_split1",
-    "exp_mode": "fl_10cls_chaug_bfsites_1000e",
+    "exp_mode": "fl_11cls_chaug_1000e",
     "data": {
-        "batch_size": 16
+        "batch_size": 32,
+        "train_csv_path": "stats/train_val_test_splits/fl_subset_train_split1_numpy.csv",
+        "train_bf_csv_path": "stats/train_val_test_splits/bf_subset_train_split1_numpy.csv",
+        "val_csv_path": "stats/train_val_test_splits/fl_subset_val_split1_numpy.csv",
+        "val_bf_csv_path": "stats/train_val_test_splits/bf_subset_val_split1_numpy.csv",
+        "test_csv_path": "stats/train_val_test_splits/fl_subset_test_split1_numpy.csv",
+        "test_bf_csv_path": "stats/train_val_test_splits/bf_subset_test_split1_numpy.csv"
     },
-    "train_configs": [
-        {
-            "train": {
-                "batch_size": 32,
-                "trainer": "BaseDistTrainer",
-                "epochs": 500,
-                "init_lr": 0.1,
-                "wd": 1e-4,
-                "milestones": [
-                    150,
-                    225
-                ]
-            },
-            "test": {
-                "tester": "BaseTester",
-                "model_path": "model_best_accuracy.pth"
-            },
-            "model": {
-                "type": "BaseResNet",
-                "args": {
-                    "in_channels": 5,
-                    "model_name": "resnet50",
-                    "num_classes": 10
-                }
-            }
+    "train": {
+        "batch_size": 64,
+        "trainer": "BaseDistTrainer",
+        "ckpt_path": "/proj/haste_berzelius/exps/specs_final/fl_exps_1_split1/fl_11cls_chaug_1000e/ResNet_resnet50/model_ckpt.pth",
+        "epochs": 1000,
+        "init_lr": 0.1,
+        "wd": 1e-4
+    },
+    "test": {
+        "tester": "BaseTester",
+        "model_path": "model_best_accuracy.pth"
+    },
+    "model": {
+        "type": "ResNet",
+        "args": {
+            "in_channels": 5,
+            "model_name": "resnet50",
+            "num_classes": 11
         }
-    ]
+    }
 }
