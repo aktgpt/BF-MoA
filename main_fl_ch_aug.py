@@ -97,8 +97,8 @@ def app(config):
     print(len(train_dataset))
     valid_dataset = FNPChAugDataset(
         root=config["data"]["data_folder"],
-        csv_file=["data"]["val_csv_path"],
-        bf_csv_file=["data"]["val_bf_csv_path"],
+        csv_file=config["data"]["val_csv_path"],
+        bf_csv_file=config["data"]["val_bf_csv_path"],
         #channels=[0],
         moas=moas,
         geo_transform=valid_transforms,
@@ -106,50 +106,49 @@ def app(config):
     print(len(valid_dataset))
     test_dataset = FNPChAugDataset(
         root=config["data"]["data_folder"],
-        csv_file=["data"]["test_csv_path"],
-        bf_csv_file=["data"]["test_bf_csv_path"],
+        csv_file=config["data"]["test_csv_path"],
+        bf_csv_file=config["data"]["test_bf_csv_path"],
         #channels=[0],
         moas=moas,
         geo_transform=valid_transforms,
     )
 
-    for train_config in config["train_configs"]:
-        model_name = train_config["model"]["args"]["model_name"]
+    model_name = config["model"]["args"]["model_name"]
 
-        exp_folder_config = os.path.join(
-            exp_folder,
-            f'{train_config["model"]["type"]}_{model_name}',
-        )
+    exp_folder_config = os.path.join(
+        exp_folder,
+        f'{config["model"]["type"]}_{model_name}',
+    )
 
-        if not os.path.exists(exp_folder_config):
-            os.makedirs(exp_folder_config)
-        with open(os.path.join(exp_folder_config, "config_exp.json"), "w") as fp:
-            json.dump(train_config, fp)
+    if not os.path.exists(exp_folder_config):
+        os.makedirs(exp_folder_config)
+    with open(os.path.join(exp_folder_config, "config_exp.json"), "w") as fp:
+        json.dump(config, fp)
 
-        valid_loader = DataLoader(
-            valid_dataset,
-            batch_size=config["data"]["batch_size"],
-            num_workers=32,
-            prefetch_factor=8,
-            persistent_workers=True,
-        )
-        test_loader = DataLoader(
-            test_dataset,
-            batch_size=config["data"]["batch_size"],
-            num_workers=16,
-            prefetch_factor=8,
-            persistent_workers=True,
-        )
-        model = getattr(models, train_config["model"]["type"])(**train_config["model"]["args"])
+    valid_loader = DataLoader(
+        valid_dataset,
+        batch_size=config["data"]["batch_size"],
+        num_workers=32,
+        prefetch_factor=8,
+        persistent_workers=True,
+    )
+    test_loader = DataLoader(
+        test_dataset,
+        batch_size=config["data"]["batch_size"],
+        num_workers=16,
+        prefetch_factor=8,
+        persistent_workers=True,
+    )
+    model = getattr(models, config["model"]["type"])(**config["model"]["args"])
 
-        train.run(
-            train_config["train"],
-            train_dataset,
-            valid_loader,
-            model,
-            exp_folder_config,
-        )
-        test.run(train_config["test"], test_loader, model, exp_folder_config)
+    train.run(
+        config["train"],
+        train_dataset,
+        valid_loader,
+        model,
+        exp_folder_config,
+    )
+    test.run(config["test"], test_loader, model, exp_folder_config)
 
 
 if __name__ == "__main__":
