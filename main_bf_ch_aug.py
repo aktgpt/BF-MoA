@@ -61,7 +61,7 @@ colour_transforms = aug.PerChannel(
         ],
         p=0.2,
     ),
-    p=0.75,
+    p=0.5,
 )
 valid_transforms = aug.Compose([aug.Resize(1024, 1024)])
 

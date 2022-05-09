@@ -42,6 +42,7 @@ moas = [
     "HSP inhibitor",
     "dmso",
 ]
+moas = np.sort(moas)
 
 site_conversion = pd.DataFrame(
     {"bf_sites": ["s1", "s2", "s3", "s4", "s5"], "f_sites": ["s2", "s4", "s5", "s6", "s8"]}
@@ -330,7 +331,7 @@ class BaseTester:
             x="x",
             y="y",
             hue="moa",
-            palette="deep",
+            palette=sns.color_palette("Paired", 11),
             legend="brief",
             s=100,
             alpha=0.9,
@@ -344,7 +345,7 @@ class BaseTester:
             y="y",
             hue="moa",
             style="compound",
-            palette="deep",
+            palette=sns.color_palette("Paired", 11),
             legend="brief",
             s=100,
             alpha=0.9,
@@ -360,7 +361,7 @@ class BaseTester:
             y="y",
             hue="moa",
             style="well",
-            palette="deep",
+            palette=sns.color_palette("Paired", 11),
             legend=False,
             s=100,
             alpha=0.9,
@@ -378,7 +379,7 @@ class BaseTester:
                 y="y",
                 hue="compound",
                 style="well",
-                palette="deep",
+                # palette=sns.color_palette("Paired", 11),
                 legend=False,
                 s=100,
                 alpha=0.9,
@@ -394,7 +395,7 @@ class BaseTester:
                 y="y",
                 hue="compound",
                 style="site",
-                palette="deep",
+                # palette=sns.color_palette("Paired", 11),
                 legend="brief",
                 s=100,
                 alpha=0.9,

@@ -38,7 +38,9 @@ moas = [
     "ATPase inhibitor",
     "retinoid receptor agonist",
     "HSP inhibitor",
+    "dmso",
 ]
+moas = np.sort(moas)
 
 
 class SupConDistTrainer:
@@ -72,59 +74,31 @@ class SupConDistTrainer:
     def train(self, train_dataset, valid_dataloader, model):
         world_size = torch.cuda.device_count()
 
-        print(
-            "We have available ",
-            torch.cuda.device_count(),
-            "GPUs! and using ",
-            world_size,
-            " GPUs",
-        )
+        # model = model.cuda()
 
-        mp.spawn(
-            self.main_worker,
-            args=(world_size, train_dataset, valid_dataloader, model),
-            nprocs=world_size,
-            join=True,
-        )
+        self.model = nn.DataParallel(model.cuda())  # = nn.DataParallel()
 
-    def main_worker(self, rank, world_size, train_dataset, valid_dataloader, model):
-        setup(rank, world_size)
+        # optimizer = optim.SGD(
+        #     self.model.parameters(),
+        #     lr=self.lr,
+        #     momentum=0.9,
+        #     weight_decay=self.wd,
+        # )
+        optimizer = optim.AdamW(self.model.parameters(), lr=self.lr)
 
-        model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)
-        projector = nn.Sequential(
-            nn.Linear(2048, 2048), nn.ReLU(inplace=False), nn.Linear(2048, 256)
-        )  # torch.nn.SyncBatchNorm.convert_sync_batchnorm(Projector("2048-256", 2048))
-
-        torch.cuda.set_device(rank)
-        model = model.to(rank)
-        projector = projector.to(rank)
-
-        self.model = DDP(model, device_ids=[rank])
-        self.projector = DDP(projector.to(rank), device_ids=[rank])
-
-        optimizer = optim.SGD(
-            list(self.model.parameters()) + list(self.projector.parameters()),
-            lr=self.lr,
-            momentum=0.9,
-            weight_decay=self.wd,
-        )
-
-        criterions = [{"loss": SupConLoss().cuda(rank), "weight": 1}]
+        criterions = [{"loss": SupConLoss().cuda(), "weight": 1}]
 
         batch_size = int(self.config["batch_size"] / world_size)
-
-        train_sampler = torch.utils.data.distributed.DistributedSampler(
-            train_dataset, num_replicas=world_size, rank=rank, shuffle=True, seed=42
-        )
 
         train_dataloader = DataLoader(
             train_dataset,
             batch_size=batch_size,
-            num_workers=int((16 + world_size - 1) / world_size),
+            num_workers=int((32 + world_size - 1) / world_size),
             prefetch_factor=8,
             persistent_workers=True,
             pin_memory=True,
-            sampler=train_sampler,
+            shuffle=True,
+            # sampler=train_sampler,
             worker_init_fn=worker_init_fn,
         )
 
@@ -139,32 +113,32 @@ class SupConDistTrainer:
 
         torch.autograd.set_detect_anomaly(True)
         for epoch in range(start_epoch, self.epochs + 1):
-            train_sampler.set_epoch(epoch)
-            train_losses = self._train_epoch(train_dataloader, optimizer, criterions, epoch, rank)
+            # train_sampler.set_epoch(epoch)
+            train_losses = self._train_epoch(train_dataloader, optimizer, criterions, epoch)
 
-            if rank == 0:
-                for i in range(len(all_train_losses_log)):
-                    all_train_losses_log[i].extend(train_losses[i])
+            for i in range(len(all_train_losses_log)):
+                all_train_losses_log[i].extend(train_losses[i])
 
-                    df_train = pd.DataFrame(all_train_losses_log).transpose()
-                    df_train.columns = [x["loss"].__class__.__name__ for x in criterions]
-                    self.plot_losses(df_train)
-                    df_train.to_csv(
-                        os.path.join(
-                            self.save_folder,
-                            "ckpt_losses_train.csv" if self.checkpoint else "losses_train.csv",
-                        )
-                    )
-                    torch.save(
-                        {
-                            "model_state_dict": self.model.state_dict(),
-                            "epoch": epoch,
-                            "optimizer_state_dict": optimizer.state_dict(),
-                        },
-                        os.path.join(self.save_folder, f"model_ckpt.pth"),
-                    )
-            if epoch % 1 == 0:
-                self._valid_epoch(train_dataloader, criterions, epoch, rank)
+            df_train = pd.DataFrame(all_train_losses_log).transpose()
+            df_train.columns = [x["loss"].__class__.__name__ for x in criterions]
+            if epoch % 10 == 0:
+                self.plot_losses(df_train)
+            df_train.to_csv(
+                os.path.join(
+                    self.save_folder,
+                    "ckpt_losses_train.csv" if self.checkpoint else "losses_train.csv",
+                )
+            )
+            torch.save(
+                {
+                    "model_state_dict": self.model.state_dict(),
+                    "epoch": epoch,
+                    "optimizer_state_dict": optimizer.state_dict(),
+                },
+                os.path.join(self.save_folder, f"model_ckpt.pth"),
+            )
+            if epoch % 20 == 0:
+                self._valid_epoch(train_dataloader, criterions, epoch)
 
         cleanup()
         return self.save_folder
@@ -193,9 +167,8 @@ class SupConDistTrainer:
             )
         plt.close()
 
-    def _train_epoch(self, dataloader, optimizer, criterions, epoch, rank):
+    def _train_epoch(self, dataloader, optimizer, criterions, epoch):
         self.model.train()
-        self.projector.train()
 
         total_loss = 0.0
         total_losses = [0.0 for i in range(len(criterions))]
@@ -206,31 +179,28 @@ class SupConDistTrainer:
         loss_log = [[] for i in range(len(criterions))]
 
         for batch_idx, sample in enumerate(dataloader):
-            input1 = sample[0].cuda(rank).to(non_blocking=True)
-            input2 = sample[1].cuda(rank).to(non_blocking=True)
+            input1 = sample[0].cuda().to(non_blocking=True)
+            input2 = sample[1].cuda().to(non_blocking=True)
             target = sample[3]
 
-            uniques, counts = np.unique(list(target), return_counts=True)
+            uniques = np.unique(list(target))
             target = (
                 torch.tensor([np.where(comp == uniques)[0][0] for comp in target])
-                .cuda(rank)
+                .cuda()
                 .to(non_blocking=True)
             )
 
             lr = self.adjust_learning_rate(
                 optimizer, dataloader, batch_idx + epoch * len(dataloader)
             )
-            print(counts, target)
+            # print(counts, target)
             print(lr)
 
             for param in self.model.parameters():
                 param.grad = None
 
-            feat1 = self.projector(self.model(input1))
-            feat2 = self.projector(self.model(input2))
-
-            feat1 = F.normalize(feat1, dim=1)
-            feat2 = F.normalize(feat2, dim=1)
+            feat1, _ = self.model(input1)
+            feat2, _ = self.model(input2)
 
             feat = torch.cat([feat1.unsqueeze(1), feat2.unsqueeze(1)], dim=1)
 
@@ -252,20 +222,23 @@ class SupConDistTrainer:
 
         return loss_log
 
-    def _valid_epoch(self, dataloader, criterions, epoch, rank):
+    def _valid_epoch(self, dataloader, criterions, epoch):
         self.model.eval()
 
         targets = []
         feature_data = []
+        compounds = []
         with torch.no_grad():
             for _, sample in enumerate(dataloader):
-                input = sample[0].cuda(rank).to(non_blocking=True)
-                target = sample[2].cuda(rank).to(non_blocking=True)
+                input = sample[0].cuda().to(non_blocking=True)
+                target = sample[2].cuda().to(non_blocking=True)
+                compound = sample[3]
 
-                feature_map = self.model(input)
+                _, feature_map = self.model(input)
 
                 feature_data.append(feature_map)
                 targets.append(target.detach())
+                compounds.extend(compound)
 
         feature_data = torch.cat(feature_data).cpu().numpy()
         targets = torch.cat(targets).cpu().numpy()
@@ -274,12 +247,7 @@ class SupConDistTrainer:
         for target in targets:
             sample_moas.append(moas[target])
 
-        df = pd.DataFrame(
-            {
-                "moa": sample_moas,
-                "fv": list(feature_data),
-            }
-        )
+        df = pd.DataFrame({"moa": sample_moas, "fv": list(feature_data), "compound": compounds})
         trans = umap.UMAP(random_state=42, n_components=2).fit(feature_data)
         df["x"] = trans.embedding_[:, 0]
         df["y"] = trans.embedding_[:, 1]
@@ -288,13 +256,27 @@ class SupConDistTrainer:
             x="x",
             y="y",
             hue="moa",
-            palette="deep",
+            palette=sns.color_palette("Paired", 11),
             legend="brief",
             s=100,
             alpha=0.9,
             data=df,
         )
-        plt.savefig(os.path.join(self.save_folder, f"embed_moa_{epoch}.png"), dpi=500)
+        plt.savefig(os.path.join(self.image_folder, f"embed_moa_{epoch}.png"), dpi=500)
+        plt.close()
+        fig, ax = plt.subplots(1, figsize=(16, 12))
+        sns.scatterplot(
+            x="x",
+            y="y",
+            hue="moa",
+            style="compound",
+            palette=sns.color_palette("Paired", 11),
+            legend="brief",
+            s=100,
+            alpha=0.9,
+            data=df,
+        )
+        plt.savefig(os.path.join(self.image_folder, f"embed_moa_comp_{epoch}.png"), dpi=500)
         plt.close()
 
     def adjust_learning_rate(self, optimizer, loader, step):

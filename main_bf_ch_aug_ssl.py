@@ -80,6 +80,7 @@ moas = [
     "ATPase inhibitor",
     "retinoid receptor agonist",
     "HSP inhibitor",
+    "dmso",
 ]
 
 
@@ -90,24 +91,24 @@ def app(config):
 
     train_dataset = BFNPChAugSSLDataset(
         root=config["data"]["data_folder"],
-        csv_file=train_csv_path,
+        csv_file=config["data"]["train_csv_path"],
         moas=moas,
         geo_transform=geo_transforms,
         colour_transform=colour_transforms,
     )
 
-    valid_dataset = BFNPChAugSSLDataset(
-        root=config["data"]["data_folder"],
-        csv_file=valid_csv_path,
-        moas=moas,
-        geo_transform=valid_transforms,
-    )
-    test_dataset = BFNPChAugSSLDataset(
-        root=config["data"]["data_folder"],
-        csv_file=valid_csv_path,
-        moas=moas,
-        geo_transform=valid_transforms,
-    )
+    # valid_dataset = BFNPChAugSSLDataset(
+    #     root=config["data"]["data_folder"],
+    #     csv_file=valid_csv_path,
+    #     moas=moas,
+    #     geo_transform=valid_transforms,
+    # )
+    # test_dataset = BFNPChAugSSLDataset(
+    #     root=config["data"]["data_folder"],
+    #     csv_file=valid_csv_path,
+    #     moas=moas,
+    #     geo_transform=valid_transforms,
+    # )
 
     for train_config in config["train_configs"]:
         model_name = train_config["model"]["args"]["model_name"]
@@ -123,10 +124,10 @@ def app(config):
             json.dump(train_config, fp)
 
         valid_loader = DataLoader(
-            valid_dataset,
+            train_dataset,
             batch_size=config["data"]["batch_size"],
             num_workers=8,
-            prefetch_factor=4,
+            prefetch_factor=8,
             persistent_workers=True,
         )
         # test_loader = DataLoader(
