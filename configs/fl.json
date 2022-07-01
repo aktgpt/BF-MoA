@@ -1,15 +1,15 @@
 {
-    "exp_folder": "/proj/haste_berzelius/exps/specs_final",
+    "exp_folder": "/proj/haste_berzelius/exps/specs_new_splits",
     "exp_name": "fl_exps_3_split1",
     "exp_mode": "fl_11cls_chaug_1000e_adamw",
     "data": {
         "batch_size": 32,
-        "train_csv_path": "stats/new_train_val_test_splits/fl_subset_train_split1_numpy.csv",
-        "train_bf_csv_path": "stats/new_train_val_test_splits/bf_subset_train_split1_numpy.csv",
-        "val_csv_path": "stats/new_train_val_test_splits/fl_subset_val_split1_numpy.csv",
-        "val_bf_csv_path": "stats/new_train_val_test_splits/bf_subset_val_split1_numpy.csv",
-        "test_csv_path": "stats/new_train_val_test_splits/fl_subset_test_split1_numpy.csv",
-        "test_bf_csv_path": "stats/new_train_val_test_splits/bf_subset_test_split1_numpy.csv"
+        "train_csv_path": "stats/train_val_test_splits/fl_subset_train_split1_numpy.csv",
+        "train_bf_csv_path": "stats/train_val_test_splits/bf_subset_train_split1_numpy.csv",
+        "val_csv_path": "stats/train_val_test_splits/fl_subset_val_split1_numpy.csv",
+        "val_bf_csv_path": "stats/train_val_test_splits/bf_subset_val_split1_numpy.csv",
+        "test_csv_path": "stats/train_val_test_splits/fl_subset_test_split1_numpy.csv",
+        "test_bf_csv_path": "stats/train_val_test_splits/bf_subset_test_split1_numpy.csv"
     },
     "train": {
         "batch_size": 64,
