@@ -1,7 +1,7 @@
 {
     "exp_folder": "/proj/haste_berzelius/exps/specs_final",
-    "exp_name": "bf_exps_1_split1",
-    "exp_mode": "bf_11cls_chaug_1000e_heavyaug_adamw",
+    "exp_name": "bf_exps_2_split1",
+    "exp_mode": "bf_11cls_chaug_1000e_adamw_compnorm",
     "data": {
         "batch_size": 32,
         "train_csv_path": "stats/train_val_test_splits/bf_subset_train_split1_numpy.csv",
@@ -11,7 +11,7 @@
     "train": {
         "batch_size": 64,
         "trainer": "BaseDistTrainer",
-        "ckpt_path": false,
+        "ckpt_path": "/proj/haste_berzelius/exps/specs_final/bf_exps_2_split1/bf_11cls_chaug_1000e_adamw_compnorm/ResNet_resnet50/model_ckpt.pth",
         "epochs": 1000,
         "init_lr": 0.001,
         "wd": 1e-4

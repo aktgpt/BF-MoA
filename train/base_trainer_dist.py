@@ -80,9 +80,11 @@ class BaseDistTrainer:
 
         self.model = DDP(model, device_ids=[rank])  # , find_unused_parameters=True)
 
-        optimizer = optim.SGD(
-            self.model.parameters(), lr=self.lr, momentum=0.9, weight_decay=self.wd
-        )
+        optimizer = optim.AdamW(self.model.parameters(), lr=self.lr)
+
+        # optimizer = optim.SGD(
+        #     self.model.parameters(), lr=self.lr, momentum=0.9, weight_decay=self.wd
+        # )
 
         # train_scheduler = optim.lr_scheduler.MultiStepLR(
         #     optimizer, milestones=self.milestones, gamma=0.1, verbose=True
@@ -138,7 +140,8 @@ class BaseDistTrainer:
 
                     df_train = pd.DataFrame(all_train_losses_log).transpose()
                     df_train.columns = [x["loss"].__class__.__name__ for x in criterions]
-                    self.plot_losses(df_train)
+                    if epoch % 5 == 0:
+                        self.plot_losses(df_train)
                     df_train.to_csv(
                         os.path.join(
                             self.save_folder,

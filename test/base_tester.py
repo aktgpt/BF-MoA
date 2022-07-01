@@ -371,6 +371,22 @@ class BaseTester:
         ylim = ax.get_ylim()
         plt.savefig(os.path.join(self.plot_folder, "test_embed_moa_well.png"), dpi=500)
         plt.close()
+        fig, ax = plt.subplots(1, figsize=(16, 12))
+        sns.scatterplot(
+            x="x",
+            y="y",
+            hue="moa",
+            style="plate",
+            palette=sns.color_palette("Paired", 11),
+            legend=False,
+            s=100,
+            alpha=0.9,
+            data=df,
+        )
+        xlim = ax.get_xlim()
+        ylim = ax.get_ylim()
+        plt.savefig(os.path.join(self.plot_folder, "test_embed_moa_plate.png"), dpi=500)
+        plt.close()
         for moa in moas:
             df_moa = df[df["moa"] == moa]
             fig, ax = plt.subplots(1, figsize=(16, 12))
@@ -404,6 +420,22 @@ class BaseTester:
             plt.xlim(list(xlim))
             plt.ylim(list(ylim))
             plt.savefig(os.path.join(self.plot_folder, f"{moa}_sites_compound.png"), dpi=500)
+            plt.close()
+            fig, ax = plt.subplots(1, figsize=(16, 12))
+            scatter = sns.scatterplot(
+                x="x",
+                y="y",
+                hue="compound",
+                style="plate",
+                # palette=sns.color_palette("Paired", 11),
+                legend="brief",
+                s=100,
+                alpha=0.9,
+                data=df_moa,
+            )
+            plt.xlim(list(xlim))
+            plt.ylim(list(ylim))
+            plt.savefig(os.path.join(self.plot_folder, f"{moa}_plate_compound.png"), dpi=500)
             plt.close()
 
 

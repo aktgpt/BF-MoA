@@ -48,21 +48,28 @@ geo_transforms = aug.Compose(
         aug.RandomRotate90(),
     ]
 )
-colour_transforms = aug.PerChannel(
-    aug.OneOf(
-        [
-            aug.GaussianBlur(),
-            aug.MotionBlur(),
-            aug.MedianBlur(blur_limit=5),
-            aug.GaussNoise(var_limit=(0.1, 1.0)),
-            aug.CoarseDropout(
-                max_holes=32, max_height=32, max_width=32, min_height=16, min_width=16
-            ),
-        ],
-        p=0.2,
-    ),
+
+colour_transforms = aug.OneOf(
+    [
+        aug.ChannelDropout(channel_drop_range=(1, 1), fill_value=0),
+        aug.PerChannel(
+            aug.OneOf(
+                [
+                    aug.GaussianBlur(),
+                    aug.MotionBlur(),
+                    aug.MedianBlur(blur_limit=5),
+                    aug.GaussNoise(var_limit=(0.1, 1.0)),
+                    aug.CoarseDropout(
+                        max_holes=32, max_height=32, max_width=32, min_height=16, min_width=16
+                    ),
+                ],
+                p=0.2,
+            )
+        ),
+    ],
     p=0.5,
 )
+
 valid_transforms = aug.Compose([aug.Resize(1024, 1024)])
 
 moas = [
@@ -134,13 +141,13 @@ def app(config):
     )
     model = getattr(models, config["model"]["type"])(**config["model"]["args"])
 
-    # train.run(
-    #     config["train"],
-    #     train_dataset,
-    #     valid_loader,
-    #     model,
-    #     exp_folder_config,
-    # )
+    train.run(
+        config["train"],
+        train_dataset,
+        valid_loader,
+        model,
+        exp_folder_config,
+    )
     test.run(config["test"], test_loader, model, exp_folder_config)
 
 

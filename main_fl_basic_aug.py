@@ -25,7 +25,7 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader
 
 import models as models
-from data.BFDataset import BNPFDataset, BFDataset, BFNPChAugDataset
+from data.FDataset import FNPChAugDataset
 from train import main as train
 
 
@@ -53,7 +53,7 @@ colour_transforms = aug.PerChannel(
         [
             aug.GaussianBlur(),
             aug.MotionBlur(),
-            aug.MedianBlur(blur_limit=5),
+            aug.MedianBlur(blur_limit=3),
             aug.GaussNoise(var_limit=(0.1, 1.0)),
             aug.CoarseDropout(
                 max_holes=32, max_height=32, max_width=32, min_height=16, min_width=16
@@ -85,23 +85,30 @@ def app(config):
     if not os.path.exists(exp_folder):
         os.makedirs(exp_folder)
 
-    train_dataset = BFNPChAugDataset(
+    train_dataset = FNPChAugDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["train_csv_path"],
+        bf_csv_file=config["data"]["train_bf_csv_path"],
+        #channels=[0],
         moas=moas,
         geo_transform=geo_transforms,
-        colour_transform=colour_transforms,
+        colour_transform=None,
     )
-
-    valid_dataset = BFNPChAugDataset(
+    print(len(train_dataset))
+    valid_dataset = FNPChAugDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["val_csv_path"],
+        bf_csv_file=config["data"]["val_bf_csv_path"],
+        #channels=[0],
         moas=moas,
         geo_transform=valid_transforms,
     )
-    test_dataset = BFNPChAugDataset(
+    print(len(valid_dataset))
+    test_dataset = FNPChAugDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["test_csv_path"],
+        bf_csv_file=config["data"]["test_bf_csv_path"],
+        #channels=[0],
         moas=moas,
         geo_transform=valid_transforms,
     )

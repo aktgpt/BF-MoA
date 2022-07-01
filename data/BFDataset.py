@@ -77,7 +77,7 @@ class BFNPChAugDataset(Dataset):
 
         im = im[:, :, self.channels]
         # Transpose to CNN shape
-        im = im.transpose(2, 0, 1)
+        im = im.transpose(2, 0, 1).astype("float32")
 
         return im, target, plate, site, compound, well
 
@@ -144,8 +144,8 @@ class BFNPChAugSSLDataset(Dataset):
             im2 = augmented["image"]
 
         # Transpose to CNN shape
-        im1 = im1.transpose(2, 0, 1)
-        im2 = im2.transpose(2, 0, 1)
+        im1 = im1.transpose(2, 0, 1).astype("float32")
+        im2 = im2.transpose(2, 0, 1).astype("float32")
 
         return im1, im2, target, compound
 
@@ -214,7 +214,7 @@ class BNPFDataset(Dataset):
             im = augmented["image"]
 
         # Transpose to CNN shape
-        im = im.transpose(2, 0, 1)
+        im = im.transpose(2, 0, 1).astype("float32")
 
         return im, target
 
@@ -279,7 +279,7 @@ class BFDataset(Dataset):
             augmented = self.transform(image=im)
             im = augmented["image"]
 
-            # Transpose to CNN shape
-            im = im.transpose(2, 0, 1)
+        # Transpose to CNN shape
+        im = im.transpose(2, 0, 1).astype("float32")
 
         return im, target

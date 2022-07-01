@@ -48,7 +48,7 @@ geo_transforms = aug.Compose(
         aug.RandomRotate90(),
     ]
 )
-colour_transforms = aug.PerChannel(
+colour_transforms = aug.Compose(
     aug.OneOf(
         [
             aug.GaussianBlur(),
@@ -134,13 +134,13 @@ def app(config):
     )
     model = getattr(models, config["model"]["type"])(**config["model"]["args"])
 
-    # train.run(
-    #     config["train"],
-    #     train_dataset,
-    #     valid_loader,
-    #     model,
-    #     exp_folder_config,
-    # )
+    train.run(
+        config["train"],
+        train_dataset,
+        valid_loader,
+        model,
+        exp_folder_config,
+    )
     test.run(config["test"], test_loader, model, exp_folder_config)
 
 

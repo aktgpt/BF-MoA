@@ -105,7 +105,7 @@ class FNPChAugDataset(Dataset):
         if len(im.shape) == 2:
             im = im[..., np.newaxis]
         # Transpose to CNN shape
-        im = im.transpose(2, 0, 1)
+        im = im.transpose(2, 0, 1).astype("float32")
 
         return im, target, plate, site, compound, well
 
@@ -173,8 +173,8 @@ class FNPDataset(Dataset):
             augmented = self.transform(image=im)
             im = augmented["image"]
 
-            # Transpose to CNN shape
-            im = im.transpose(2, 0, 1)
+        # Transpose to CNN shape
+        im = im.transpose(2, 0, 1).astype("float32")
 
         return im, target
 
@@ -240,7 +240,7 @@ class FDataset(Dataset):
             augmented = self.transform(image=im)
             im = augmented["image"]
 
-            # Transpose to CNN shape
-            im = im.transpose(2, 0, 1)
+        # Transpose to CNN shape
+        im = im.transpose(2, 0, 1).astype("float32")
 
         return im, target
