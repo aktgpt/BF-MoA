@@ -22,8 +22,6 @@ from torch.utils.data import DataLoader
 from utils.metrics import get_metrics
 from utils.multiprocess_utils import cleanup, setup
 
-from .dist_sampler import DistributedWeightedSampler
-
 
 class BaseDistTrainer:
     def __init__(self, config, save_folder):
@@ -82,14 +80,6 @@ class BaseDistTrainer:
 
         optimizer = optim.AdamW(self.model.parameters(), lr=self.lr)
 
-        # optimizer = optim.SGD(
-        #     self.model.parameters(), lr=self.lr, momentum=0.9, weight_decay=self.wd
-        # )
-
-        # train_scheduler = optim.lr_scheduler.MultiStepLR(
-        #     optimizer, milestones=self.milestones, gamma=0.1, verbose=True
-        # )
-
         if self.balanced:
             _, counts = np.unique(train_dataset.labels, return_counts=True)
             weights = torch.tensor(np.sum(counts) / counts).float().cuda()
@@ -97,9 +87,13 @@ class BaseDistTrainer:
             weights = None
 
         if self.multilabel:
-            criterions = [{"loss": nn.MultiLabelSoftMarginLoss().cuda(rank), "weight": 1}]
+            criterions = [
+                {"loss": nn.MultiLabelSoftMarginLoss().cuda(rank), "weight": 1}
+            ]
         else:
-            criterions = [{"loss": nn.CrossEntropyLoss(weight=weights).cuda(rank), "weight": 1}]
+            criterions = [
+                {"loss": nn.CrossEntropyLoss(weight=weights).cuda(rank), "weight": 1}
+            ]
 
         batch_size = int(self.config["batch_size"] / world_size)
 
@@ -132,20 +126,26 @@ class BaseDistTrainer:
 
         for epoch in range(start_epoch, self.epochs + 1):
             train_sampler.set_epoch(epoch)
-            train_losses = self._train_epoch(train_dataloader, optimizer, criterions, epoch, rank)
+            train_losses = self._train_epoch(
+                train_dataloader, optimizer, criterions, epoch, rank
+            )
             # train_scheduler.step()
             if rank == 0:
                 for i in range(len(all_train_losses_log)):
                     all_train_losses_log[i].extend(train_losses[i])
 
                     df_train = pd.DataFrame(all_train_losses_log).transpose()
-                    df_train.columns = [x["loss"].__class__.__name__ for x in criterions]
+                    df_train.columns = [
+                        x["loss"].__class__.__name__ for x in criterions
+                    ]
                     if epoch % 5 == 0:
                         self.plot_losses(df_train)
                     df_train.to_csv(
                         os.path.join(
                             self.save_folder,
-                            "ckpt_losses_train.csv" if self.checkpoint else "losses_train.csv",
+                            "ckpt_losses_train.csv"
+                            if self.checkpoint
+                            else "losses_train.csv",
                         )
                     )
                     torch.save(
@@ -166,7 +166,9 @@ class BaseDistTrainer:
                     df_acc.to_csv(
                         os.path.join(
                             self.save_folder,
-                            "ckpt_acc_valid.csv" if self.checkpoint else "acc_valid.csv",
+                            "ckpt_acc_valid.csv"
+                            if self.checkpoint
+                            else "acc_valid.csv",
                         )
                     )
 
@@ -174,12 +176,16 @@ class BaseDistTrainer:
                         all_valid_losses_log[i].extend(valid_losses[i])
 
                     df_valid = pd.DataFrame(all_valid_losses_log).transpose()
-                    df_valid.columns = [x["loss"].__class__.__name__ for x in criterions]
+                    df_valid.columns = [
+                        x["loss"].__class__.__name__ for x in criterions
+                    ]
                     self.plot_losses(df_valid, train=False)
                     df_valid.to_csv(
                         os.path.join(
                             self.save_folder,
-                            "ckpt_losses_valid.csv" if self.checkpoint else "losses_valid.csv",
+                            "ckpt_losses_valid.csv"
+                            if self.checkpoint
+                            else "losses_valid.csv",
                         )
                     )
                     if epoch_accuracy > best_accuracy:
@@ -239,7 +245,7 @@ class BaseDistTrainer:
                 optimizer, dataloader, batch_idx + epoch * len(dataloader)
             )
             print(lr)
-            
+
             for param in self.model.parameters():
                 param.grad = None
 

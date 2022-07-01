@@ -9,6 +9,7 @@
         "test_csv_path": "stats/new_train_val_test_splits/bf_subset_test_split1_numpy.csv"
     },
     "train": {
+        "balanced": true,
         "batch_size": 64,
         "trainer": "BaseDistTrainer",
         "ckpt_path": false,

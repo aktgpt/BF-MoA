@@ -39,7 +39,9 @@ class BFNPChAugDataset(Dataset):
         self.df = pd.read_csv(csv_file)
 
         if self.dmso_normalize:
-            self.dmso_stats_df = pd.read_csv(dmso_stats_path, header=[0, 1], index_col=0)
+            self.dmso_stats_df = pd.read_csv(
+                dmso_stats_path, header=[0, 1], index_col=0
+            )
 
         if self.subset_of_moas:
             self.moas = np.sort(moas)
@@ -108,7 +110,9 @@ class BFNPChAugSSLDataset(Dataset):
         self.df = pd.read_csv(csv_file)
 
         if self.dmso_normalize:
-            self.dmso_stats_df = pd.read_csv(dmso_stats_path, header=[0, 1], index_col=0)
+            self.dmso_stats_df = pd.read_csv(
+                dmso_stats_path, header=[0, 1], index_col=0
+            )
 
         if self.subset_of_moas:
             self.moas = np.sort(moas)
@@ -173,7 +177,9 @@ class BNPFDataset(Dataset):
         self.df = pd.read_csv(csv_file)
 
         if self.dmso_normalize:
-            self.dmso_stats_df = pd.read_csv(dmso_stats_path, header=[0, 1], index_col=0)
+            self.dmso_stats_df = pd.read_csv(
+                dmso_stats_path, header=[0, 1], index_col=0
+            )
 
         if self.subset_of_moas:
             self.moas = np.sort(moas)
@@ -241,7 +247,9 @@ class BFDataset(Dataset):
         self.df = pd.read_csv(csv_file)
 
         if self.dmso_normalize:
-            self.dmso_stats_df = pd.read_csv(dmso_stats_path, header=[0, 1], index_col=0)
+            self.dmso_stats_df = pd.read_csv(
+                dmso_stats_path, header=[0, 1], index_col=0
+            )
 
         if self.subset_of_moas:
             self.moas = np.sort(moas)

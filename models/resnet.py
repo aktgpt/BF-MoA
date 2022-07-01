@@ -6,7 +6,7 @@ import torch.nn.functional as F
 from torch import nn
 from torchvision import models
 
-from .utils.resnet_utils import conv1x1, get_kwargs
+from .resnet_utils import conv1x1, get_kwargs
 
 
 class ResNet(nn.Module):
