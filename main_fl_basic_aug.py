@@ -48,21 +48,7 @@ geo_transforms = aug.Compose(
         aug.RandomRotate90(),
     ]
 )
-colour_transforms = aug.PerChannel(
-    aug.OneOf(
-        [
-            aug.GaussianBlur(),
-            aug.MotionBlur(),
-            aug.MedianBlur(blur_limit=3),
-            aug.GaussNoise(var_limit=(0.1, 1.0)),
-            aug.CoarseDropout(
-                max_holes=32, max_height=32, max_width=32, min_height=16, min_width=16
-            ),
-        ],
-        p=0.2,
-    ),
-    p=0.5,
-)
+
 valid_transforms = aug.Compose([aug.Resize(1024, 1024)])
 
 moas = [
@@ -81,7 +67,9 @@ moas = [
 
 
 def app(config):
-    exp_folder = os.path.join(config["exp_folder"], config["exp_name"], config["exp_mode"])
+    exp_folder = os.path.join(
+        config["exp_folder"], config["exp_name"], config["exp_mode"]
+    )
     if not os.path.exists(exp_folder):
         os.makedirs(exp_folder)
 
@@ -89,26 +77,21 @@ def app(config):
         root=config["data"]["data_folder"],
         csv_file=config["data"]["train_csv_path"],
         bf_csv_file=config["data"]["train_bf_csv_path"],
-        #channels=[0],
         moas=moas,
         geo_transform=geo_transforms,
         colour_transform=None,
     )
-    print(len(train_dataset))
     valid_dataset = FNPChAugDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["val_csv_path"],
         bf_csv_file=config["data"]["val_bf_csv_path"],
-        #channels=[0],
         moas=moas,
         geo_transform=valid_transforms,
     )
-    print(len(valid_dataset))
     test_dataset = FNPChAugDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["test_csv_path"],
         bf_csv_file=config["data"]["test_bf_csv_path"],
-        #channels=[0],
         moas=moas,
         geo_transform=valid_transforms,
     )
@@ -155,7 +138,9 @@ if __name__ == "__main__":
     argparser = argparse.ArgumentParser(description="SearchFirst config file path")
     argparser.add_argument("-c", "--conf", help="path to configuration file")
     argparser.add_argument("-d", "--data_dir", help="path to dataset file")
-    argparser.add_argument("-r", "--random_seed", help="random_seed", default=42, type=int)
+    argparser.add_argument(
+        "-r", "--random_seed", help="random_seed", default=42, type=int
+    )
     args = argparser.parse_args()
     config_path = args.conf
     data_path = args.data_dir

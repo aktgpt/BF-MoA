@@ -83,6 +83,7 @@ class BaseDistTrainer:
         if self.balanced:
             _, counts = np.unique(train_dataset.labels, return_counts=True)
             weights = torch.tensor(np.sum(counts) / counts).float().cuda()
+            print("Class Weights: ", weights)
         else:
             weights = None
 

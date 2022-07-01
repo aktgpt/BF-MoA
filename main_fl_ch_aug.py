@@ -89,26 +89,21 @@ def app(config):
         root=config["data"]["data_folder"],
         csv_file=config["data"]["train_csv_path"],
         bf_csv_file=config["data"]["train_bf_csv_path"],
-        #channels=[0],
         moas=moas,
         geo_transform=geo_transforms,
         colour_transform=colour_transforms,
     )
-    print(len(train_dataset))
     valid_dataset = FNPChAugDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["val_csv_path"],
         bf_csv_file=config["data"]["val_bf_csv_path"],
-        #channels=[0],
         moas=moas,
         geo_transform=valid_transforms,
     )
-    print(len(valid_dataset))
     test_dataset = FNPChAugDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["test_csv_path"],
         bf_csv_file=config["data"]["test_bf_csv_path"],
-        #channels=[0],
         moas=moas,
         geo_transform=valid_transforms,
     )
