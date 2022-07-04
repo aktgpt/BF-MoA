@@ -79,6 +79,8 @@ moas = [
     "dmso",
 ]
 
+dmso_stats_path = "stats/new_stats/bf_dmso_MAD_stats.csv"
+
 
 def app(config):
     exp_folder = os.path.join(
@@ -87,26 +89,47 @@ def app(config):
     if not os.path.exists(exp_folder):
         os.makedirs(exp_folder)
 
-    train_dataset = BFNPChAugDataset(
+    train_dataset = BFDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["train_csv_path"],
+        dmso_stats_path=dmso_stats_path,
         moas=moas,
         geo_transform=geo_transforms,
         colour_transform=colour_transforms,
     )
-
-    valid_dataset = BFNPChAugDataset(
+    # BFNPChAugDataset(
+    #     root=config["data"]["data_folder"],
+    #     csv_file=config["data"]["train_csv_path"],
+    #     moas=moas,
+    #     geo_transform=geo_transforms,
+    #     colour_transform=colour_transforms,
+    # )
+    valid_dataset = BFDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["val_csv_path"],
+        dmso_stats_path=dmso_stats_path,
         moas=moas,
         geo_transform=valid_transforms,
     )
-    test_dataset = BFNPChAugDataset(
+    # BFNPChAugDataset(
+    #     root=config["data"]["data_folder"],
+    #     csv_file=config["data"]["val_csv_path"],
+    #     moas=moas,
+    #     geo_transform=valid_transforms,
+    # )
+    test_dataset = BFDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["test_csv_path"],
+        dmso_stats_path=dmso_stats_path,
         moas=moas,
         geo_transform=valid_transforms,
     )
+    # BFNPChAugDataset(
+    #     root=config["data"]["data_folder"],
+    #     csv_file=config["data"]["test_csv_path"],
+    #     moas=moas,
+    #     geo_transform=valid_transforms,
+    # )
 
     model_name = config["model"]["args"]["model_name"]
 
@@ -123,15 +146,15 @@ def app(config):
     valid_loader = DataLoader(
         valid_dataset,
         batch_size=config["data"]["batch_size"],
-        num_workers=32,
-        prefetch_factor=8,
+        num_workers=16,
+        prefetch_factor=4,
         persistent_workers=True,
     )
     test_loader = DataLoader(
         test_dataset,
         batch_size=config["data"]["batch_size"],
         num_workers=16,
-        prefetch_factor=8,
+        prefetch_factor=4,
         persistent_workers=True,
     )
     model = getattr(models, config["model"]["type"])(**config["model"]["args"])
@@ -164,5 +187,6 @@ if __name__ == "__main__":
     config["data"]["data_folder"] = data_path
 
     print(config["exp_name"])
+    print(config["exp_mode"])
     print(config["data"]["data_folder"])
     app(config)

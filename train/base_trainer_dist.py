@@ -105,8 +105,8 @@ class BaseDistTrainer:
         train_dataloader = DataLoader(
             train_dataset,
             batch_size=batch_size,
-            num_workers=int((32 + world_size - 1) / world_size),
-            prefetch_factor=8,
+            num_workers=int((16 + world_size - 1) / world_size),
+            prefetch_factor=2,
             persistent_workers=True,
             pin_memory=True,
             sampler=train_sampler,
@@ -122,6 +122,7 @@ class BaseDistTrainer:
             optimizer.load_state_dict(self.checkpoint["optimizer_state_dict"])
             self.model.load_state_dict(self.checkpoint["model_state_dict"])
             start_epoch = self.checkpoint["epoch"]
+            print(f"Loading checkpoint from {start_epoch}")
         else:
             start_epoch = 1
 

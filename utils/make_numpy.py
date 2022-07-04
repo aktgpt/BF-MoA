@@ -91,7 +91,7 @@ for split_file in sorted(split_files):
         dmso_stats_df = pd.read_csv(
             "stats/new_stats/bf_dmso_stats.csv", header=[0, 1], index_col=0
         )
-    elif "fl" in filename:
+    elif "fl" in filename: 
         mode = "fl"
         dmso_stats_df = pd.read_csv(
             "stats/new_stats/fl_dmso_stats.csv", header=[0, 1], index_col=0

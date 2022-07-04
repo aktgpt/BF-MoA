@@ -109,7 +109,7 @@ def app(config):
     valid_loader = DataLoader(
         valid_dataset,
         batch_size=config["data"]["batch_size"],
-        num_workers=32,
+        num_workers=16,
         prefetch_factor=8,
         persistent_workers=True,
     )
@@ -150,5 +150,6 @@ if __name__ == "__main__":
     config["data"]["data_folder"] = data_path
 
     print(config["exp_name"])
+    print(config["exp_mode"])
     print(config["data"]["data_folder"])
     app(config)

@@ -25,7 +25,7 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader
 
 import models as models
-from data.FDataset import FNPChAugDataset
+from data.FDataset import FNPChAugDataset, FDataset
 from train import main as train
 
 
@@ -64,6 +64,7 @@ moas = [
     "HSP inhibitor",
     "dmso",
 ]
+dmso_stats_path = "stats/new_stats/fl_dmso_MAD_stats.csv"
 
 
 def app(config):
@@ -73,28 +74,53 @@ def app(config):
     if not os.path.exists(exp_folder):
         os.makedirs(exp_folder)
 
-    train_dataset = FNPChAugDataset(
+    train_dataset = FDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["train_csv_path"],
         bf_csv_file=config["data"]["train_bf_csv_path"],
+        dmso_stats_path=dmso_stats_path,
         moas=moas,
         geo_transform=geo_transforms,
         colour_transform=None,
     )
-    valid_dataset = FNPChAugDataset(
+    # FNPChAugDataset(
+    #     root=config["data"]["data_folder"],
+    #     csv_file=config["data"]["train_csv_path"],
+    #     bf_csv_file=config["data"]["train_bf_csv_path"],
+    #     moas=moas,
+    #     geo_transform=geo_transforms,
+    #     colour_transform=None,
+    # )
+    valid_dataset = FDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["val_csv_path"],
         bf_csv_file=config["data"]["val_bf_csv_path"],
+        dmso_stats_path=dmso_stats_path,
         moas=moas,
         geo_transform=valid_transforms,
     )
+    # FNPChAugDataset(
+    #     root=config["data"]["data_folder"],
+    #     csv_file=config["data"]["val_csv_path"],
+    #     bf_csv_file=config["data"]["val_bf_csv_path"],
+    #     moas=moas,
+    #     geo_transform=valid_transforms,
+    # )
     test_dataset = FNPChAugDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["test_csv_path"],
         bf_csv_file=config["data"]["test_bf_csv_path"],
+        dmso_stats_path=dmso_stats_path,
         moas=moas,
         geo_transform=valid_transforms,
     )
+    # FNPChAugDataset(
+    #     root=config["data"]["data_folder"],
+    #     csv_file=config["data"]["test_csv_path"],
+    #     bf_csv_file=config["data"]["test_bf_csv_path"],
+    #     moas=moas,
+    #     geo_transform=valid_transforms,
+    # )
 
     model_name = config["model"]["args"]["model_name"]
 
