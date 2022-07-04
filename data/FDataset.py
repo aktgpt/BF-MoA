@@ -137,7 +137,7 @@ class FDataset(Dataset):
         self.bf_csv_file = bf_csv_file
         if bf_csv_file:
             self.bf_df = pd.read_csv(bf_csv_file)
-            self.bf_df = self.bf_df["C1"].apply(lambda x: x.split("_")[2])
+            self.bf_df["site"] = self.bf_df["C1"].apply(lambda x: x.split("_")[2])
         else:
             self.bf_df = None
 
