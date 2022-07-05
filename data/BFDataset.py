@@ -183,7 +183,7 @@ class BFDataset(Dataset):
 
         im = im[:, :, self.channels]
         # Transpose to CNN shape
-        im = im.transpose(2, 0, 1)  # .astype("float32")
+        im = im.transpose(2, 0, 1).astype("float32")
 
         return im, target, plate, site, compound, well
 
