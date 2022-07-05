@@ -106,7 +106,7 @@ def app(config):
     #     moas=moas,
     #     geo_transform=valid_transforms,
     # )
-    test_dataset = FNPChAugDataset(
+    test_dataset = FDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["test_csv_path"],
         bf_csv_file=config["data"]["test_bf_csv_path"],
@@ -137,7 +137,7 @@ def app(config):
     valid_loader = DataLoader(
         valid_dataset,
         batch_size=config["data"]["batch_size"],
-        num_workers=32,
+        num_workers=16,
         prefetch_factor=8,
         persistent_workers=True,
     )

@@ -25,7 +25,7 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader
 
 import models as models
-from data.FDataset import FNPChAugDataset
+from data.FDataset import FNPChAugDataset, FDataset
 from train import main as train
 
 
@@ -78,32 +78,35 @@ moas = [
     "HSP inhibitor",
     "dmso",
 ]
-
+dmso_stats_path = "stats/new_stats/fl_dmso_MAD_stats.csv"
 
 def app(config):
     exp_folder = os.path.join(config["exp_folder"], config["exp_name"], config["exp_mode"])
     if not os.path.exists(exp_folder):
         os.makedirs(exp_folder)
 
-    train_dataset = FNPChAugDataset(
+    train_dataset = FDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["train_csv_path"],
         bf_csv_file=config["data"]["train_bf_csv_path"],
+        dmso_stats_path=dmso_stats_path,
         moas=moas,
         geo_transform=geo_transforms,
         colour_transform=colour_transforms,
     )
-    valid_dataset = FNPChAugDataset(
+    valid_dataset = FDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["val_csv_path"],
         bf_csv_file=config["data"]["val_bf_csv_path"],
+        dmso_stats_path=dmso_stats_path,
         moas=moas,
         geo_transform=valid_transforms,
     )
-    test_dataset = FNPChAugDataset(
+    test_dataset = FDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["test_csv_path"],
         bf_csv_file=config["data"]["test_bf_csv_path"],
+        dmso_stats_path=dmso_stats_path,
         moas=moas,
         geo_transform=valid_transforms,
     )
@@ -123,15 +126,15 @@ def app(config):
     valid_loader = DataLoader(
         valid_dataset,
         batch_size=config["data"]["batch_size"],
-        num_workers=32,
-        prefetch_factor=8,
+        num_workers=16,
+        prefetch_factor=4,
         persistent_workers=True,
     )
     test_loader = DataLoader(
         test_dataset,
         batch_size=config["data"]["batch_size"],
         num_workers=16,
-        prefetch_factor=8,
+        prefetch_factor=4,
         persistent_workers=True,
     )
     model = getattr(models, config["model"]["type"])(**config["model"]["args"])
