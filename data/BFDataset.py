@@ -10,7 +10,7 @@ from torch.utils.data import Dataset
 
 def dmso_normalization(im, dmso_mean, dmso_std):
     im_norm = (im - dmso_mean) / dmso_std
-    return im_norm
+    return np.float32(im_norm)
 
 
 class BFNPChAugDataset(Dataset):
@@ -183,7 +183,7 @@ class BFDataset(Dataset):
 
         im = im[:, :, self.channels]
         # Transpose to CNN shape
-        im = im.transpose(2, 0, 1).astype("float32")
+        im = im.transpose(2, 0, 1)  # .astype("float32")
 
         return im, target, plate, site, compound, well
 

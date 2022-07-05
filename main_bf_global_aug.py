@@ -79,6 +79,8 @@ moas = [
     "dmso",
 ]
 
+dmso_stats_path = "stats/new_stats/bf_dmso_MAD_stats.csv"
+
 
 def app(config):
     exp_folder = os.path.join(
@@ -87,26 +89,48 @@ def app(config):
     if not os.path.exists(exp_folder):
         os.makedirs(exp_folder)
 
-    train_dataset = BFNPChAugDataset(
+    train_dataset = BFDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["train_csv_path"],
+        dmso_stats_path=dmso_stats_path,
         moas=moas,
         geo_transform=geo_transforms,
         colour_transform=colour_transforms,
     )
+    # BFNPChAugDataset(
+    #     root=config["data"]["data_folder"],
+    #     csv_file=config["data"]["train_csv_path"],
+    #     moas=moas,
+    #     geo_transform=geo_transforms,
+    #     colour_transform=colour_transforms,
+    # )
 
-    valid_dataset = BFNPChAugDataset(
+    valid_dataset = BFDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["val_csv_path"],
+        dmso_stats_path=dmso_stats_path,
         moas=moas,
         geo_transform=valid_transforms,
     )
-    test_dataset = BFNPChAugDataset(
+    # BFNPChAugDataset(
+    #     root=config["data"]["data_folder"],
+    #     csv_file=config["data"]["val_csv_path"],
+    #     moas=moas,
+    #     geo_transform=valid_transforms,
+    # )
+    test_dataset = BFDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["test_csv_path"],
+        dmso_stats_path=dmso_stats_path,
         moas=moas,
         geo_transform=valid_transforms,
     )
+    # BFNPChAugDataset(
+    #     root=config["data"]["data_folder"],
+    #     csv_file=config["data"]["test_csv_path"],
+    #     moas=moas,
+    #     geo_transform=valid_transforms,
+    # )
 
     model_name = config["model"]["args"]["model_name"]
 

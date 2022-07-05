@@ -106,7 +106,7 @@ class BaseDistTrainer:
             train_dataset,
             batch_size=batch_size,
             num_workers=int((16 + world_size - 1) / world_size),
-            prefetch_factor=4,
+            prefetch_factor=8,
             persistent_workers=True,
             pin_memory=True,
             sampler=train_sampler,
