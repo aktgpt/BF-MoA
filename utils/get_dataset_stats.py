@@ -83,9 +83,9 @@ def get_dataset_stats(image_path, all_dataset_df, mode):
         df_dict["std_C" + str(i + 1)] = stds[i]
     df = pd.DataFrame(df_dict)
     df.to_csv(
-        "stats/bf_normalization_stats.csv"
+        "stats/new_stats/bf_normalization_stats.csv"
         if mode == "bf"
-        else "stats/fl_normalization_stats.csv",
+        else "stats/new_stats/fl_normalization_stats.csv",
         index=False,
     )
 

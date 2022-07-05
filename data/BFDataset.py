@@ -1,9 +1,11 @@
-from torch.utils.data import Dataset
-import numpy as np
 import glob
-import pandas as pd
+import os
+
 import albumentations as album
 import cv2
+import numpy as np
+import pandas as pd
+from torch.utils.data import Dataset
 
 
 def dmso_normalization(im, dmso_mean, dmso_std):
@@ -133,17 +135,33 @@ class BFDataset(Dataset):
 
         site = row.site
 
-        im = []
-        for i in range(1, 7):
-            local_im = cv2.imread(self.root + row.path + "/" + row["C" + str(i)], -1)
+        im = np.load(
+            self.root + row.path + "/" + os.path.splitext(row["C5"])[0] + ".npy"
+        )
+        assert np.min(im) > 0, "Image is not positive"
+        assert np.max(im) < 65536, "Image is not in [0, 65536]"
+        for i in range(1, 6):
             assert site == row["C" + str(i)].split("_")[2]
-            if self.dmso_normalize:
-                dmso_mean = self.dmso_stats_df[row.plate]["C" + str(i)]["m"]
-                dmso_std = self.dmso_stats_df[row.plate]["C" + str(i)]["std"]
-                local_im = dmso_normalization(local_im, dmso_mean, dmso_std)
 
-            im.append(local_im)
-        im = np.array(im).transpose(1, 2, 0).astype("float32")
+        if self.dmso_normalize:
+            dmso_mean = []
+            dmso_std = []
+            for i in range(1, 7):
+                dmso_mean.append(self.dmso_stats_df[row.plate]["C" + str(i)]["m"])
+                dmso_std.append(self.dmso_stats_df[row.plate]["C" + str(i)]["std"])
+
+            im = dmso_normalization(im, dmso_mean, dmso_std)
+        # im = []
+        # for i in range(1, 7):
+        #     local_im = cv2.imread(self.root + row.path + "/" + row["C" + str(i)], -1)
+        #     assert site == row["C" + str(i)].split("_")[2]
+        #     if self.dmso_normalize:
+        #         dmso_mean = self.dmso_stats_df[row.plate]["C" + str(i)]["m"]
+        #         dmso_std = self.dmso_stats_df[row.plate]["C" + str(i)]["std"]
+        #         local_im = dmso_normalization(local_im, dmso_mean, dmso_std)
+
+        #     im.append(local_im)
+        # im = np.array(im).transpose(1, 2, 0).astype("float32")
 
         target = np.where(row["moa"] == self.moas)[0].item()
         plate = row.plate
