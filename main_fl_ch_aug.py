@@ -27,11 +27,7 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 import models as models
-<<<<<<< HEAD
 from data.FDataset import FDataset, FNPChAugDataset
-=======
-from data.FDataset import FNPChAugDataset, FDataset
->>>>>>> f25550d2e5f75b0282688922e8920c400f9f4cd8
 from train import main as train
 
 
