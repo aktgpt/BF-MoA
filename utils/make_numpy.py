@@ -90,23 +90,9 @@ def make_numpy_df(image_path, df, dmso_stats_df, mode, save_path):
 
 image_path = "/proj/haste_berzelius/datasets/specs"
 
-dataset_file = "stats/new_stats/bf_main_11moas.csv"
-dmso_stats_df = pd.read_csv(
-    "stats/new_stats/bf_dmso_MAD_stats.csv", header=[0, 1], index_col=0
-)
-df = pd.read_csv(dataset_file)
-save_path = os.path.join(
-    "stats/new_stats",
-    os.path.splitext(os.path.basename(dataset_file))[0]
-    + "_numpy"
-    + os.path.splitext(os.path.basename(dataset_file))[1],
-)
-make_numpy_df(image_path, df, dmso_stats_df, "bf", save_path)
-
-
-# dataset_file = "stats/new_stats/fl_main_11moas.csv"
+# dataset_file = "stats/new_stats/bf_main_11moas.csv"
 # dmso_stats_df = pd.read_csv(
-#     "stats/new_stats/fl_dmso_MAD_stats.csv", header=[0, 1], index_col=0
+#     "stats/new_stats/bf_dmso_MAD_stats.csv", header=[0, 1], index_col=0
 # )
 # df = pd.read_csv(dataset_file)
 # save_path = os.path.join(
@@ -115,7 +101,21 @@ make_numpy_df(image_path, df, dmso_stats_df, "bf", save_path)
 #     + "_numpy"
 #     + os.path.splitext(os.path.basename(dataset_file))[1],
 # )
-# make_numpy_df(image_path, df, dmso_stats_df, "fl", save_path)
+# make_numpy_df(image_path, df, dmso_stats_df, "bf", save_path)
+
+
+dataset_file = "stats/new_stats/fl_main_11moas.csv"
+dmso_stats_df = pd.read_csv(
+    "stats/new_stats/fl_dmso_MAD_stats.csv", header=[0, 1], index_col=0
+)
+df = pd.read_csv(dataset_file)
+save_path = os.path.join(
+    "stats/new_stats",
+    os.path.splitext(os.path.basename(dataset_file))[0]
+    + "_numpy"
+    + os.path.splitext(os.path.basename(dataset_file))[1],
+)
+make_numpy_df(image_path, df, dmso_stats_df, "fl", save_path)
 
 
 # split_file_path = "stats/new_train_val_test_splits/"

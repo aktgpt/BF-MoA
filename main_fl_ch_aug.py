@@ -17,15 +17,17 @@ import os
 import shutil
 from test import main as test
 
+import albumentations as aug
 import matplotlib
+import pandas as pd
 import torch.distributed as dist
 import torch.multiprocessing as mp
-import albumentations as aug
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader
+from tqdm import tqdm
 
 import models as models
-from data.FDataset import FNPChAugDataset
+from data.FDataset import FDataset, FNPChAugDataset
 from train import main as train
 
 
@@ -78,35 +80,92 @@ moas = [
     "HSP inhibitor",
     "dmso",
 ]
+dmso_stats_path = "stats/new_stats/fl_dmso_MAD_stats.csv"
+orig_image_path = "/proj/haste_berzelius/datasets/specs"
+
+
+def transfer_files(file_list, dst_dir):
+    print("Copying files to {}".format(dst_dir))
+    for file in file_list:
+        df = pd.read_csv(file)
+        for index, row in tqdm(df.iterrows(), total=df.shape[0]):
+            img_path = (
+                orig_image_path
+                + row.path
+                + "/"
+                + os.path.splitext(row["C5"])[0]
+                + ".npy"
+            )
+            if os.path.exists(img_path):
+                new_img_dir = dst_dir + row.path
+                print(new_img_dir)
+                os.makedirs(new_img_dir, exist_ok=True)
+                shutil.copy(img_path, new_img_dir)
 
 
 def app(config):
-    exp_folder = os.path.join(config["exp_folder"], config["exp_name"], config["exp_mode"])
+    exp_folder = os.path.join(
+        config["exp_folder"], config["exp_name"], config["exp_mode"]
+    )
     if not os.path.exists(exp_folder):
         os.makedirs(exp_folder)
 
-    train_dataset = FNPChAugDataset(
+    transfer_files(
+        [
+            config["data"]["train_csv_path"],
+            config["data"]["val_csv_path"],
+            config["data"]["test_csv_path"],
+        ],
+        config["data"]["data_folder"],
+    )
+
+    train_dataset = FDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["train_csv_path"],
         bf_csv_file=config["data"]["train_bf_csv_path"],
+        dmso_stats_path=dmso_stats_path,
         moas=moas,
         geo_transform=geo_transforms,
         colour_transform=colour_transforms,
     )
-    valid_dataset = FNPChAugDataset(
+    # FNPChAugDataset(
+    #     root=config["data"]["data_folder"],
+    #     csv_file=config["data"]["train_csv_path"],
+    #     bf_csv_file=config["data"]["train_bf_csv_path"],
+    #     moas=moas,
+    #     geo_transform=geo_transforms,
+    #     colour_transform=colour_transforms,
+    # )
+    valid_dataset = FDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["val_csv_path"],
         bf_csv_file=config["data"]["val_bf_csv_path"],
+        dmso_stats_path=dmso_stats_path,
         moas=moas,
         geo_transform=valid_transforms,
     )
-    test_dataset = FNPChAugDataset(
+    # FNPChAugDataset(
+    #     root=config["data"]["data_folder"],
+    #     csv_file=config["data"]["val_csv_path"],
+    #     bf_csv_file=config["data"]["val_bf_csv_path"],
+    #     moas=moas,
+    #     geo_transform=valid_transforms,
+    # )
+    test_dataset = FDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["test_csv_path"],
         bf_csv_file=config["data"]["test_bf_csv_path"],
+        dmso_stats_path=dmso_stats_path,
         moas=moas,
         geo_transform=valid_transforms,
     )
+    # FNPChAugDataset(
+    #     root=config["data"]["data_folder"],
+    #     csv_file=config["data"]["test_csv_path"],
+    #     bf_csv_file=config["data"]["test_bf_csv_path"],
+    #     moas=moas,
+    #     geo_transform=valid_transforms,
+    # )
 
     model_name = config["model"]["args"]["model_name"]
 
@@ -150,7 +209,9 @@ if __name__ == "__main__":
     argparser = argparse.ArgumentParser(description="SearchFirst config file path")
     argparser.add_argument("-c", "--conf", help="path to configuration file")
     argparser.add_argument("-d", "--data_dir", help="path to dataset file")
-    argparser.add_argument("-r", "--random_seed", help="random_seed", default=42, type=int)
+    argparser.add_argument(
+        "-r", "--random_seed", help="random_seed", default=42, type=int
+    )
     args = argparser.parse_args()
     config_path = args.conf
     data_path = args.data_dir
@@ -162,5 +223,6 @@ if __name__ == "__main__":
     config["data"]["data_folder"] = data_path
 
     print(config["exp_name"])
+    print(config["exp_mode"])
     print(config["data"]["data_folder"])
     app(config)

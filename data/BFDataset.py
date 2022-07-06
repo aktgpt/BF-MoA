@@ -5,11 +5,17 @@ import albumentations as album
 import cv2
 import numpy as np
 import pandas as pd
+import torch
 from torch.utils.data import Dataset
 
 
 def dmso_normalization(im, dmso_mean, dmso_std):
     im_norm = (im - dmso_mean) / dmso_std
+    return np.float32(im_norm)
+
+
+def dmso_difference(im, dmso_mean, dmso_std):
+    im_norm = im - dmso_mean
     return np.float32(im_norm)
 
 
@@ -150,6 +156,7 @@ class BFDataset(Dataset):
                 dmso_mean.append(self.dmso_stats_df[row.plate]["C" + str(i)]["m"])
                 dmso_std.append(self.dmso_stats_df[row.plate]["C" + str(i)]["std"])
 
+            # im = dmso_difference(im, dmso_mean, dmso_std)
             im = dmso_normalization(im, dmso_mean, dmso_std)
         # im = []
         # for i in range(1, 7):
@@ -183,7 +190,8 @@ class BFDataset(Dataset):
 
         im = im[:, :, self.channels]
         # Transpose to CNN shape
-        im = im.transpose(2, 0, 1).astype("float32")
+        im = torch.tensor(im.transpose(2, 0, 1), dtype=torch.float32)
+        # .astype("float32")
 
         return im, target, plate, site, compound, well
 

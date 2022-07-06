@@ -201,6 +201,8 @@ class BaseDistTrainer:
                             },
                             os.path.join(self.save_folder, f"model_best_accuracy.pth"),
                         )
+            if epoch % 100 == 0:
+                torch.cuda.empty_cache()
         cleanup()
         return self.save_folder
 

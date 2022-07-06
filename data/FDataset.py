@@ -6,12 +6,18 @@ import albumentations as album
 import cv2
 import numpy as np
 import pandas as pd
+import torch
 from torch.utils.data import Dataset
 
 
 def dmso_normalization(im, dmso_mean, dmso_std):
-    im_norm = (im.astype("float32") - dmso_mean) / dmso_std  #
-    return im_norm
+    im_norm = (im - dmso_mean) / dmso_std  #
+    return np.float32(im_norm)
+
+
+def dmso_difference(im, dmso_mean, dmso_std):
+    im_norm = im - dmso_mean
+    return np.float32(im_norm)
 
 
 site_conversion = pd.DataFrame(
@@ -185,7 +191,9 @@ class FDataset(Dataset):
         im = np.load(
             self.root + row.path + "/" + os.path.splitext(row["C5"])[0] + ".npy"
         )
-        assert np.min(im) > 0, "Image is not positive"
+        assert (
+            np.min(im) >= 0
+        ), f"Image is not positive, {row.plate}, {row.compound},{row.well}"
         assert np.max(im) < 65536, "Image is not in [0, 65536]"
         for i in range(1, 6):
             assert site == row["C" + str(i)].split("_")[2]
@@ -197,6 +205,7 @@ class FDataset(Dataset):
                 dmso_mean.append(self.dmso_stats_df[row.plate]["C" + str(i)]["m"])
                 dmso_std.append(self.dmso_stats_df[row.plate]["C" + str(i)]["std"])
 
+            # im = dmso_difference(im, dmso_mean, dmso_std)
             im = dmso_normalization(im, dmso_mean, dmso_std)
         # im = []
         # for i in range(1, 6):
@@ -231,7 +240,7 @@ class FDataset(Dataset):
         if len(im.shape) == 2:
             im = im[..., np.newaxis]
         # Transpose to CNN shape
-        im = im.transpose(2, 0, 1).astype("float32")
+        im = torch.tensor(im.transpose(2, 0, 1), dtype=torch.float32)
 
         return im, target, plate, site, compound, well
 

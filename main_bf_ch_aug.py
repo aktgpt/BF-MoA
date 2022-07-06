@@ -17,15 +17,17 @@ import os
 import shutil
 from test import main as test
 
+import albumentations as aug
 import matplotlib
+import pandas as pd
 import torch.distributed as dist
 import torch.multiprocessing as mp
-import albumentations as aug
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader
+from tqdm import tqdm
 
 import models as models
-from data.BFDataset import BNPFDataset, BFDataset, BFNPChAugDataset
+from data.BFDataset import BFDataset, BFNPChAugDataset, BNPFDataset
 from train import main as train
 
 
@@ -64,7 +66,6 @@ colour_transforms = aug.PerChannel(
     p=0.5,
 )
 valid_transforms = aug.Compose([aug.Resize(1024, 1024)])
-
 moas = [
     "Aurora kinase inhibitor",
     "tubulin polymerization inhibitor",
@@ -78,8 +79,27 @@ moas = [
     "HSP inhibitor",
     "dmso",
 ]
-
 dmso_stats_path = "stats/new_stats/bf_dmso_MAD_stats.csv"
+orig_image_path = "/proj/haste_berzelius/datasets/specs"
+
+
+def transfer_files(file_list, dst_dir):
+    print("Copying files to {}".format(dst_dir))
+    for file in file_list:
+        df = pd.read_csv(file)
+        for index, row in tqdm(df.iterrows(), total=df.shape[0]):
+            img_path = (
+                orig_image_path
+                + row.path
+                + "/"
+                + os.path.splitext(row["C5"])[0]
+                + ".npy"
+            )
+            if os.path.exists(img_path):
+                new_img_dir = dst_dir + row.path
+                print(new_img_dir)
+                os.makedirs(new_img_dir, exist_ok=True)
+                shutil.copy(img_path, new_img_dir)
 
 
 def app(config):
@@ -88,6 +108,15 @@ def app(config):
     )
     if not os.path.exists(exp_folder):
         os.makedirs(exp_folder)
+
+    transfer_files(
+        [
+            config["data"]["train_csv_path"],
+            config["data"]["val_csv_path"],
+            config["data"]["test_csv_path"],
+        ],
+        config["data"]["data_folder"],
+    )
 
     train_dataset = BFDataset(
         root=config["data"]["data_folder"],
@@ -147,14 +176,14 @@ def app(config):
         valid_dataset,
         batch_size=config["data"]["batch_size"],
         num_workers=16,
-        prefetch_factor=4,
+        prefetch_factor=8,
         persistent_workers=True,
     )
     test_loader = DataLoader(
         test_dataset,
         batch_size=config["data"]["batch_size"],
         num_workers=16,
-        prefetch_factor=4,
+        prefetch_factor=8,
         persistent_workers=True,
     )
     model = getattr(models, config["model"]["type"])(**config["model"]["args"])
@@ -190,3 +219,4 @@ if __name__ == "__main__":
     print(config["exp_mode"])
     print(config["data"]["data_folder"])
     app(config)
+# "/proj/haste_berzelius/exps/specs_new_splits/bf_exps_1_split1/bf_11cls_MAD_chaug_1000e_adamw/ResNet_resnet50/model_ckpt.pth"
