@@ -27,7 +27,11 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 import models as models
+<<<<<<< HEAD
 from data.FDataset import FDataset, FNPChAugDataset
+=======
+from data.FDataset import FNPChAugDataset, FDataset
+>>>>>>> f25550d2e5f75b0282688922e8920c400f9f4cd8
 from train import main as train
 
 
@@ -182,15 +186,15 @@ def app(config):
     valid_loader = DataLoader(
         valid_dataset,
         batch_size=config["data"]["batch_size"],
-        num_workers=32,
-        prefetch_factor=8,
+        num_workers=16,
+        prefetch_factor=4,
         persistent_workers=True,
     )
     test_loader = DataLoader(
         test_dataset,
         batch_size=config["data"]["batch_size"],
         num_workers=16,
-        prefetch_factor=8,
+        prefetch_factor=4,
         persistent_workers=True,
     )
     model = getattr(models, config["model"]["type"])(**config["model"]["args"])
