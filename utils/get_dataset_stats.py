@@ -6,7 +6,8 @@ import numpy as np
 import pandas as pd
 from torch import std_mean
 from tqdm import tqdm
-
+from scipy.stats import median_abs_deviation
+import random
 
 image_path = "/proj/haste_berzelius/datasets/specs"
 
@@ -41,21 +42,27 @@ def get_compound_plate_stats(df, compound, plate):
     return df_plate
 
 
-def get_dataset_stats(image_path, all_dataset_df, mode):
+def get_dataset_stats(image_path, all_dataset_df, mode, mean_mode="mean"):
     unique_plates = np.unique(all_dataset_df.plate)
     plates = []
     compounds = []
     means = [[] for _ in range(6 if mode == "bf" else 5)]
     stds = [[] for _ in range(6 if mode == "bf" else 5)]
 
+    medians = [[] for _ in range(6 if mode == "bf" else 5)]
+    mads = [[] for _ in range(6 if mode == "bf" else 5)]
+
     for plate in tqdm(unique_plates):
         df_plate = all_dataset_df[all_dataset_df.plate == plate].reset_index(drop=True)
         unique_plate_compounds = np.unique(df_plate.compound)
+        plate_images = []
+
         for compound in unique_plate_compounds:
             df_plate_compound = df_plate[df_plate.compound == compound].reset_index(
                 drop=True
             )
             images = []
+            # images_npy = []
             for id, row in df_plate_compound.iterrows():
                 image = []
                 for c in range(1, 7 if mode == "bf" else 6):
@@ -63,17 +70,72 @@ def get_dataset_stats(image_path, all_dataset_df, mode):
                         image_path + row.path + "/" + row["C" + str(c)], -1
                     )
                     image.append(ch_image)
-                image = np.array(image).transpose(1, 2, 0).astype("float32")
+                image = np.array(image).transpose(1, 2, 0)  # .astype("float32")
+                image_npy = np.load(
+                    image_path
+                    + row.path
+                    + "/"
+                    + os.path.splitext(row["C5"])[0]
+                    + ".npy"
+                )
+                assert (
+                    np.sum(image == image_npy) / image.size == 1
+                ), "Images are not equal"
+                # images_npy.append(image_npy[np.newaxis, ...])
                 images.append(image[np.newaxis, ...])
-            images = np.concatenate(images, axis=0)
+                # if random.random() < 0.7:
+                plate_images.append(image[np.newaxis, ...])
+            images = np.concatenate(images, axis=0)  # .astype("float64")
+            # images_npy = np.concatenate(images_npy, axis=0).astype("float64")
+            # print(np.sum(np.equal(images, images_npy)) / images.size)
             print(images.shape[0])
+
             mean = np.mean(images, axis=(0, 1, 2))
             std = np.std(images, axis=(0, 1, 2))
+
+            median = np.median(images, axis=(0, 1, 2))
+            mad = median_abs_deviation(images, axis=(0, 1, 2), nan_policy="omit")
+
+            # if mean_mode == "mean":
+            #     mean = np.mean(images, axis=(0, 1, 2))
+            #     std = np.std(images, axis=(0, 1, 2))
+            # elif mean_mode == "median":
+            #     mean = np.median(images, axis=(0, 1, 2))
+            #     std = median_abs_deviation(images, axis=(0, 1, 2), nan_policy="omit")
             for c in range(6 if mode == "bf" else 5):
                 means[c].append(mean[c])
                 stds[c].append(std[c])
+                medians[c].append(median[c])
+                mads[c].append(mad[c])
             plates.append(row.plate)
             compounds.append(row.compound)
+
+            print(
+                f"plate: {row.plate}, compound: {row.compound},\n mean: {mean},\n std: {std},\n median: {median},\n mad: {mad}"
+            )
+
+        plate_images = np.concatenate(plate_images, axis=0)#.astype("float64")
+        print(plate_images.shape[0])
+        plate_mean = np.mean(plate_images, axis=(0, 1, 2))
+        plate_std = np.std(plate_images, axis=(0, 1, 2))
+
+        plate_median = np.median(plate_images, axis=(0, 1, 2))
+        plate_mad = median_abs_deviation(
+            plate_images, axis=(0, 1, 2), nan_policy="omit"
+        )
+
+        for c in range(6 if mode == "bf" else 5):
+            means[c].append(plate_mean[c])
+            stds[c].append(plate_std[c])
+            medians[c].append(plate_median[c])
+            mads[c].append(plate_mad[c])
+        plates.append(row.plate)
+        compounds.append("plate")
+
+        print(
+            f"plate: {row.plate}, compound: all,\n mean: {plate_mean},\n std: {plate_std},\n median: {plate_median},\n mad: {plate_mad}"
+        )
+
     df_dict = {
         "plate": plates,
         "compound": compounds,
@@ -81,17 +143,19 @@ def get_dataset_stats(image_path, all_dataset_df, mode):
     for i in range(len(means)):
         df_dict["mean_C" + str(i + 1)] = means[i]
         df_dict["std_C" + str(i + 1)] = stds[i]
+        df_dict["median_C" + str(i + 1)] = medians[i]
+        df_dict["mad_C" + str(i + 1)] = mads[i]
     df = pd.DataFrame(df_dict)
     df.to_csv(
-        "stats/new_stats/bf_normalization_stats.csv"
+        f"stats/final_stats/bf_normalization_stats_tif.csv"
         if mode == "bf"
-        else "stats/new_stats/fl_normalization_stats.csv",
+        else f"stats/final_stats/fl_normalization_stats_all.csv",
         index=False,
     )
 
 
 get_dataset_stats(image_path, bf_all_dataset_df, mode="bf")
-get_dataset_stats(image_path, fl_all_dataset_df, mode="fl")
+# get_dataset_stats(image_path, fl_all_dataset_df, mode="fl")
 
 
 # x = 1

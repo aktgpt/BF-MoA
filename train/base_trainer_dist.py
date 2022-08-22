@@ -1,22 +1,17 @@
-import os
-from pickletools import optimize
-import random
 import math
+import os
+import random
+from pickletools import optimize
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
 import torch
-import torch.distributed as dist
 import torch.multiprocessing as mp
 import torch.nn.functional as F
-import torchvision
-from numpy.lib.shape_base import apply_along_axis
-from sklearn.metrics import balanced_accuracy_score, accuracy_score
+from sklearn.metrics import accuracy_score, balanced_accuracy_score
 from torch import nn, optim
-from torch.distributed.optim import ZeroRedundancyOptimizer
-from torch.multiprocessing import Lock
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader
 from utils.metrics import get_metrics
@@ -27,7 +22,7 @@ class BaseDistTrainer:
     def __init__(self, config, save_folder):
         self.config = config
         self.epochs = config["epochs"]
-        try:
+        try: 
             self.multilabel = config["multilabel"]
         except:
             self.multilabel = False
@@ -113,18 +108,31 @@ class BaseDistTrainer:
             worker_init_fn=worker_init_fn,
         )
 
-        all_train_losses_log = [[] for i in range(len(criterions))]
-        all_valid_losses_log = [[] for i in range(len(criterions))]
-        best_accuracy = -np.inf
-        all_accuracies = []
-
         if self.checkpoint:
+            start_epoch = self.checkpoint["epoch"] + 1
+
+            train_df = pd.read_csv(os.path.join(self.save_folder, "losses_train.csv"))
+            all_train_losses_log = [
+                train_df[x["loss"].__class__.__name__].to_list() for x in criterions
+            ]
+            valid_df = pd.read_csv(os.path.join(self.save_folder, "losses_valid.csv"))
+            all_valid_losses_log = [
+                valid_df[x["loss"].__class__.__name__].to_list() for x in criterions
+            ]
+            best_accuracy = np.max(all_accuracies)
+            all_accuracies = pd.read_csv(
+                os.path.join(self.save_folder, "acc_valid.csv")
+            )["accuracies"].tolist()
+
             optimizer.load_state_dict(self.checkpoint["optimizer_state_dict"])
             self.model.load_state_dict(self.checkpoint["model_state_dict"])
-            start_epoch = self.checkpoint["epoch"]
             print(f"Loading checkpoint from {start_epoch}")
         else:
             start_epoch = 1
+            all_train_losses_log = [[] for i in range(len(criterions))]
+            all_valid_losses_log = [[] for i in range(len(criterions))]
+            best_accuracy = -np.inf
+            all_accuracies = []
 
         for epoch in range(start_epoch, self.epochs + 1):
             train_sampler.set_epoch(epoch)
@@ -142,14 +150,7 @@ class BaseDistTrainer:
                     ]
                     if epoch % 5 == 0:
                         self.plot_losses(df_train)
-                    df_train.to_csv(
-                        os.path.join(
-                            self.save_folder,
-                            "ckpt_losses_train.csv"
-                            if self.checkpoint
-                            else "losses_train.csv",
-                        )
-                    )
+                    df_train.to_csv(os.path.join(self.save_folder, "losses_train.csv"))
                     torch.save(
                         {
                             "model_state_dict": self.model.state_dict(),
@@ -165,14 +166,7 @@ class BaseDistTrainer:
                 if rank == 0:
                     all_accuracies.append(epoch_accuracy)
                     df_acc = pd.DataFrame({"accuracies": all_accuracies})
-                    df_acc.to_csv(
-                        os.path.join(
-                            self.save_folder,
-                            "ckpt_acc_valid.csv"
-                            if self.checkpoint
-                            else "acc_valid.csv",
-                        )
-                    )
+                    df_acc.to_csv(os.path.join(self.save_folder, "acc_valid.csv"))
 
                     for i in range(len(all_valid_losses_log)):
                         all_valid_losses_log[i].extend(valid_losses[i])
@@ -182,14 +176,7 @@ class BaseDistTrainer:
                         x["loss"].__class__.__name__ for x in criterions
                     ]
                     self.plot_losses(df_valid, train=False)
-                    df_valid.to_csv(
-                        os.path.join(
-                            self.save_folder,
-                            "ckpt_losses_valid.csv"
-                            if self.checkpoint
-                            else "losses_valid.csv",
-                        )
-                    )
+                    df_valid.to_csv(os.path.join(self.save_folder, "losses_valid.csv"))
                     if epoch_accuracy > best_accuracy:
                         best_accuracy = epoch_accuracy
                         # if rank % world_size == 0:
@@ -201,8 +188,7 @@ class BaseDistTrainer:
                             },
                             os.path.join(self.save_folder, f"model_best_accuracy.pth"),
                         )
-            if epoch % 100 == 0:
-                torch.cuda.empty_cache()
+
         cleanup()
         return self.save_folder
 
@@ -214,19 +200,11 @@ class BaseDistTrainer:
             sns.lineplot(x=idx, y=i + "_1", data=df, legend="brief", label=str(i))
         if train:
             plt.savefig(
-                os.path.join(
-                    self.save_folder,
-                    "ckpt_train_losses.png" if self.checkpoint else "train_losses.png",
-                ),
-                dpi=300,
+                os.path.join(self.save_folder, "train_losses.png"), dpi=300,
             )
         else:
             plt.savefig(
-                os.path.join(
-                    self.save_folder,
-                    "ckpt_valid_losses.png" if self.checkpoint else "valid_losses.png",
-                ),
-                dpi=300,
+                os.path.join(self.save_folder, "valid_losses.png"), dpi=300,
             )
         plt.close()
 
@@ -248,7 +226,7 @@ class BaseDistTrainer:
             lr = self.adjust_learning_rate(
                 optimizer, dataloader, batch_idx + epoch * len(dataloader)
             )
-            print(lr)
+            print(epoch, batch_idx, lr)
 
             for param in self.model.parameters():
                 param.grad = None
@@ -317,7 +295,7 @@ class BaseDistTrainer:
 
     def adjust_learning_rate(self, optimizer, loader, step):
         max_steps = self.epochs * len(loader)
-        warmup_steps = 10 * len(loader)
+        warmup_steps = 50 * len(loader)
         base_lr = self.lr
         if step < warmup_steps:
             lr = base_lr * step / warmup_steps

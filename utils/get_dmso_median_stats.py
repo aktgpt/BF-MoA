@@ -31,7 +31,7 @@ def make_dmso_stats(image_path, csv_path, mode, save_path):
                 channel_im = cv2.imread(channel_path, -1)
                 im.append(channel_im)
 
-            dmso_stats[plate][c] = {
+            [plate][c] = {
                 "m": np.median(im),
                 "std": median_abs_deviation(im, axis=None, nan_policy="omit"),
             }
@@ -44,12 +44,12 @@ def make_dmso_stats(image_path, csv_path, mode, save_path):
     df_test.to_csv(save_path)
 
 
-make_dmso_stats(
-    image_path,
-    "stats/new_stats/fl_dmso_main.csv",
-    "fl",
-    "stats/new_stats/fl_dmso_MAD_stats.csv",
-)
+# make_dmso_stats(
+#     image_path,
+#     "stats/new_stats/fl_dmso_main.csv",
+#     "fl",
+#     "stats/new_stats/fl_dmso_MAD_stats.csv",
+# )
 make_dmso_stats(
     image_path,
     "stats/new_stats/bf_dmso_main.csv",

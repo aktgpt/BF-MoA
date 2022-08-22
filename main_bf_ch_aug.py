@@ -27,7 +27,7 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 import models as models
-from data.BFDataset import BFDataset, BFNPChAugDataset, BNPFDataset
+from data.bf_dataset import BFDataset
 from train import main as train
 
 
@@ -50,22 +50,39 @@ geo_transforms = aug.Compose(
         aug.RandomRotate90(),
     ]
 )
-colour_transforms = aug.PerChannel(
-    aug.OneOf(
-        [
-            aug.GaussianBlur(),
-            aug.MotionBlur(),
-            aug.MedianBlur(blur_limit=5),
-            aug.GaussNoise(var_limit=(0.1, 1.0)),
-            aug.CoarseDropout(
-                max_holes=32, max_height=32, max_width=32, min_height=16, min_width=16
+
+colour_transforms = aug.Compose(
+    [
+        aug.ToFloat(max_value=65535.0),
+        aug.PerChannel(
+            aug.OneOf(
+                [
+                    aug.GaussianBlur(),
+                    aug.MotionBlur(),
+                    aug.RandomBrightnessContrast(
+                        brightness_limit=0.1,
+                        contrast_limit=0.1,
+                        brightness_by_max=False,
+                    ),
+                    aug.MedianBlur(blur_limit=3),
+                    aug.GaussNoise(var_limit=(0.001, 0.005)),
+                    aug.CoarseDropout(
+                        max_holes=32,
+                        max_height=32,
+                        max_width=32,
+                        min_height=16,
+                        min_width=16,
+                    ),
+                ],
+                p=0.5,
             ),
-        ],
-        p=0.2,
-    ),
-    p=0.5,
+            p=0.75,
+        ),
+        aug.FromFloat(max_value=65535.0),
+    ]
 )
 valid_transforms = aug.Compose([aug.Resize(1024, 1024)])
+
 moas = [
     "Aurora kinase inhibitor",
     "tubulin polymerization inhibitor",
@@ -79,7 +96,7 @@ moas = [
     "HSP inhibitor",
     "dmso",
 ]
-dmso_stats_path = "stats/new_stats/bf_dmso_MAD_stats.csv"
+dmso_stats_path = "stats/final_stats/all_bf_stats_tif.csv"  # "stats/bf_dmso_stats.csv"
 orig_image_path = "/proj/haste_berzelius/datasets/specs"
 
 
@@ -99,7 +116,12 @@ def transfer_files(file_list, dst_dir):
                 new_img_dir = dst_dir + row.path
                 print(new_img_dir)
                 os.makedirs(new_img_dir, exist_ok=True)
-                shutil.copy(img_path, new_img_dir)
+                if os.path.isfile(
+                    new_img_dir + "/" + os.path.splitext(row["C5"])[0] + ".npy"
+                ):
+                    pass
+                else:
+                    shutil.copy(img_path, new_img_dir)
 
 
 def app(config):
@@ -121,50 +143,35 @@ def app(config):
     train_dataset = BFDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["train_csv_path"],
+        normalize="comp",
         dmso_stats_path=dmso_stats_path,
         moas=moas,
         geo_transform=geo_transforms,
         colour_transform=colour_transforms,
     )
-    # BFNPChAugDataset(
-    #     root=config["data"]["data_folder"],
-    #     csv_file=config["data"]["train_csv_path"],
-    #     moas=moas,
-    #     geo_transform=geo_transforms,
-    #     colour_transform=colour_transforms,
-    # )
+
     valid_dataset = BFDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["val_csv_path"],
+        normalize="comp",
         dmso_stats_path=dmso_stats_path,
         moas=moas,
         geo_transform=valid_transforms,
     )
-    # BFNPChAugDataset(
-    #     root=config["data"]["data_folder"],
-    #     csv_file=config["data"]["val_csv_path"],
-    #     moas=moas,
-    #     geo_transform=valid_transforms,
-    # )
+
     test_dataset = BFDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["test_csv_path"],
+        normalize="comp",
         dmso_stats_path=dmso_stats_path,
         moas=moas,
         geo_transform=valid_transforms,
     )
-    # BFNPChAugDataset(
-    #     root=config["data"]["data_folder"],
-    #     csv_file=config["data"]["test_csv_path"],
-    #     moas=moas,
-    #     geo_transform=valid_transforms,
-    # )
 
     model_name = config["model"]["args"]["model_name"]
 
     exp_folder_config = os.path.join(
-        exp_folder,
-        f'{config["model"]["type"]}_{model_name}',
+        exp_folder, f'{config["model"]["type"]}_{model_name}'
     )
 
     if not os.path.exists(exp_folder_config):
@@ -175,26 +182,20 @@ def app(config):
     valid_loader = DataLoader(
         valid_dataset,
         batch_size=config["data"]["batch_size"],
-        num_workers=16,
+        num_workers=8,
         prefetch_factor=8,
         persistent_workers=True,
     )
     test_loader = DataLoader(
         test_dataset,
         batch_size=config["data"]["batch_size"],
-        num_workers=16,
+        num_workers=8,
         prefetch_factor=8,
         persistent_workers=True,
     )
     model = getattr(models, config["model"]["type"])(**config["model"]["args"])
 
-    train.run(
-        config["train"],
-        train_dataset,
-        valid_loader,
-        model,
-        exp_folder_config,
-    )
+    train.run(config["train"], train_dataset, valid_loader, model, exp_folder_config)
     test.run(config["test"], test_loader, model, exp_folder_config)
 
 
@@ -209,7 +210,9 @@ if __name__ == "__main__":
     config_path = args.conf
     data_path = args.data_dir
     random_seed = args.random_seed
+
     set_random_seed(random_seed)
+
     with open(config_path) as config_buffer:
         config = json.loads(config_buffer.read())
 
@@ -219,4 +222,6 @@ if __name__ == "__main__":
     print(config["exp_mode"])
     print(config["data"]["data_folder"])
     app(config)
+
 # "/proj/haste_berzelius/exps/specs_new_splits/bf_exps_1_split1/bf_11cls_MAD_chaug_1000e_adamw/ResNet_resnet50/model_ckpt.pth"
+# ["-c", "configs/bf_mad.json", "-d", "/proj/haste_berzelius/datasets/specs"]
