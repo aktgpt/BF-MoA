@@ -1,12 +1,12 @@
 {
     "exp_folder": "/proj/haste_berzelius/exps/specs_new_splits",
     "exp_name": "bf_exps_1_split1",
-    "exp_mode": "bf_11cls_chaug_1000e_adamw_lr0.0001",
+    "exp_mode": "bf_11cls_chaug_1000e_adamw_oldnorm_oldsplit",
     "data": {
         "batch_size": 32,
-        "train_csv_path": "stats/new_train_val_test_splits/bf_subset_train_split1_numpy.csv",
-        "val_csv_path": "stats/new_train_val_test_splits/bf_subset_val_split1_numpy.csv",
-        "test_csv_path": "stats/new_train_val_test_splits/bf_subset_test_split1_numpy.csv"
+        "train_csv_path": "stats/new_train_val_test_splits/bf_subset_train_split1.csv",
+        "val_csv_path": "stats/new_train_val_test_splits/bf_subset_val_split1.csv",
+        "test_csv_path": "stats/new_train_val_test_splits/bf_subset_test_split1.csv"
     },
     "train": {
         "balanced": true,
@@ -14,7 +14,7 @@
         "trainer": "BaseDistTrainer",
         "ckpt_path": false,
         "epochs": 1000,
-        "init_lr": 0.0001,
+        "init_lr": 0.001,
         "wd": 1e-4
     },
     "test": {

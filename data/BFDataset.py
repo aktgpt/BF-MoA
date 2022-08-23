@@ -1,7 +1,6 @@
 import glob
 import os
 
-import albumentations as album
 import cv2
 import numpy as np
 import pandas as pd
@@ -11,12 +10,130 @@ from torch.utils.data import Dataset
 
 def dmso_normalization(im, dmso_mean, dmso_std):
     im_norm = (im - dmso_mean) / dmso_std
-    return np.float32(im_norm)
+    return im_norm  # np.float32(im_norm)
 
 
 def dmso_difference(im, dmso_mean, dmso_std):
     im_norm = im - dmso_mean
     return np.float32(im_norm)
+
+
+class BFDataset(Dataset):
+    def __init__(
+        self,
+        root,
+        csv_file,
+        channels=[0, 1, 2, 3, 4, 5],
+        to_one_hot=False,
+        dmso_normalize=True,
+        dmso_stats_path=None,
+        subset_of_moas=True,
+        moas=None,
+        geo_transform=None,
+        colour_transform=None,
+    ):
+        self.root = np.array([root], str)  # root
+        self.channels = np.array(channels, dtype=np.int)
+        self.dmso_normalize = dmso_normalize
+
+        self.geo_transform = geo_transform
+        self.colour_transform = colour_transform
+
+        self.to_one_hot = to_one_hot
+        self.subset_of_moas = subset_of_moas
+
+        self.df = pd.read_csv(csv_file, dtype=str)
+
+        self.df["site"] = self.df["C1"].apply(lambda x: x.split("_")[2])
+
+        if self.dmso_normalize:
+            self.dmso_stats_df = pd.read_csv(
+                dmso_stats_path, header=[0, 1], index_col=0
+            )
+
+        if self.subset_of_moas:
+            self.moas = np.sort(moas)
+            self.df = self.df[self.df["moa"].isin(self.moas)].reset_index(drop=True)
+        else:
+            self.moas = np.sort(self.df.moa.unique())
+        self.labels = np.array(self.df["moa"])
+
+    def __len__(self):
+        return len(self.df)
+
+    def __getitem__(self, idx):
+        row = self.df.iloc[idx]
+
+        im = np.load(
+            str((self.root)[0])
+            + row.path
+            + "/"
+            + os.path.splitext(row["C5"])[0]
+            + ".npy"
+        )
+        # assert np.min(im) > 0, "Image is not positive"
+        # assert np.max(im) < 65536, "Image is not in [0, 65536]"
+        # for i in range(1, 6):
+        #     assert site == row["C" + str(i)].split("_")[2]
+
+        # im = []
+        # for i in range(1, 7):
+        #     local_im = cv2.imread(str((self.root)[0]) + row.path + "/" + row["C" + str(i)], -1)
+        #     # assert site == row["C" + str(i)].split("_")[2]
+        #     if self.dmso_normalize:
+        #         dmso_mean = self.dmso_stats_df[row.plate]["C" + str(i)]["m"]
+        #         dmso_std = self.dmso_stats_df[row.plate]["C" + str(i)]["std"]
+        #         local_im = dmso_normalization(local_im, dmso_mean, dmso_std)
+
+        #     im.append(local_im)
+        # im = (
+        #     np.array(im)
+        #     .transpose(1, 2, 0)
+        #     .astype("float32" if dtype == "float32" else "float64")
+        # )
+
+        # dmso_mean = []
+        # dmso_std = []
+        # for i in range(1, 7):
+        #     dmso_mean.append(self.dmso_stats_df[row.plate]["C" + str(i)]["m"])
+        #     dmso_std.append(self.dmso_stats_df[row.plate]["C" + str(i)]["std"])
+
+        # im = dmso_difference(im, dmso_mean, dmso_std)
+        # im = dmso_normalization(im, dmso_mean, dmso_std)
+
+        target = np.where(row["moa"] == self.moas)[0].item()
+
+        if self.to_one_hot:
+            one_hot = np.zeros(len(self.labels))
+            one_hot[target] = 1
+            target = one_hot
+
+        if self.geo_transform:
+            augmented = self.geo_transform(image=im)
+            im = augmented["image"]
+
+        if self.colour_transform:
+            augmented = self.colour_transform(image=im)
+            im = augmented["image"]
+
+        if self.dmso_normalize:
+            dmso_mean = np.array(
+                [self.dmso_stats_df[row.plate]["C" + str(i)]["m"] for i in range(1, 7)]
+            )
+            dmso_std = np.array(
+                [
+                    self.dmso_stats_df[row.plate]["C" + str(i)]["std"]
+                    for i in range(1, 7)
+                ]
+            )
+            im = dmso_normalization(im, dmso_mean, dmso_std)
+
+        im = im[:, :, self.channels]
+        # Transpose to CNN shape
+        # im = torch.tensor(im.transpose(2, 0, 1), dtype=torch.float32)
+        im = im.transpose(2, 0, 1)
+
+        return im, target, row.plate, row.site, row.compound, row.well
 
 
 class BFNPChAugDataset(Dataset):
@@ -88,110 +205,6 @@ class BFNPChAugDataset(Dataset):
         im = im[:, :, self.channels]
         # Transpose to CNN shape
         im = im.transpose(2, 0, 1).astype("float32")
-
-        return im, target, plate, site, compound, well
-
-
-class BFDataset(Dataset):
-    def __init__(
-        self,
-        root,
-        csv_file,
-        channels=[0, 1, 2, 3, 4, 5],
-        to_one_hot=False,
-        dmso_normalize=True,
-        dmso_stats_path=None,
-        subset_of_moas=True,
-        moas=None,
-        geo_transform=None,
-        colour_transform=None,
-    ):
-        self.root = root
-        self.csv_file = csv_file
-        self.channels = channels
-        self.dmso_normalize = dmso_normalize
-        self.dmso_stats_path = dmso_stats_path
-
-        self.geo_transform = geo_transform
-        self.colour_transform = colour_transform
-
-        self.to_one_hot = to_one_hot
-        self.subset_of_moas = subset_of_moas
-
-        self.df = pd.read_csv(csv_file)
-        self.df["site"] = self.df["C1"].apply(lambda x: x.split("_")[2])
-
-        if self.dmso_normalize:
-            self.dmso_stats_df = pd.read_csv(
-                dmso_stats_path, header=[0, 1], index_col=0
-            )
-
-        if self.subset_of_moas:
-            self.moas = np.sort(moas)
-            self.df = self.df[self.df["moa"].isin(self.moas)].reset_index(drop=True)
-        else:
-            self.moas = np.sort(self.df.moa.unique())
-        self.labels = np.array(self.df["moa"])
-
-    def __len__(self):
-        return len(self.df)
-
-    def __getitem__(self, idx):
-        row = self.df.iloc[idx]
-
-        site = row.site
-
-        im = np.load(
-            self.root + row.path + "/" + os.path.splitext(row["C5"])[0] + ".npy"
-        )
-        assert np.min(im) > 0, "Image is not positive"
-        assert np.max(im) < 65536, "Image is not in [0, 65536]"
-        for i in range(1, 6):
-            assert site == row["C" + str(i)].split("_")[2]
-
-        if self.dmso_normalize:
-            dmso_mean = []
-            dmso_std = []
-            for i in range(1, 7):
-                dmso_mean.append(self.dmso_stats_df[row.plate]["C" + str(i)]["m"])
-                dmso_std.append(self.dmso_stats_df[row.plate]["C" + str(i)]["std"])
-
-            # im = dmso_difference(im, dmso_mean, dmso_std)
-            im = dmso_normalization(im, dmso_mean, dmso_std)
-        # im = []
-        # for i in range(1, 7):
-        #     local_im = cv2.imread(self.root + row.path + "/" + row["C" + str(i)], -1)
-        #     assert site == row["C" + str(i)].split("_")[2]
-        #     if self.dmso_normalize:
-        #         dmso_mean = self.dmso_stats_df[row.plate]["C" + str(i)]["m"]
-        #         dmso_std = self.dmso_stats_df[row.plate]["C" + str(i)]["std"]
-        #         local_im = dmso_normalization(local_im, dmso_mean, dmso_std)
-
-        #     im.append(local_im)
-        # im = np.array(im).transpose(1, 2, 0).astype("float32")
-
-        target = np.where(row["moa"] == self.moas)[0].item()
-        plate = row.plate
-        compound = row.compound
-        well = row.well
-
-        if self.to_one_hot:
-            one_hot = np.zeros(len(self.labels))
-            one_hot[target] = 1
-            target = one_hot
-
-        if self.geo_transform:
-            augmented = self.geo_transform(image=im)
-            im = augmented["image"]
-
-        if self.colour_transform:
-            augmented = self.colour_transform(image=im)
-            im = augmented["image"]
-
-        im = im[:, :, self.channels]
-        # Transpose to CNN shape
-        im = torch.tensor(im.transpose(2, 0, 1), dtype=torch.float32)
-        # .astype("float32")
 
         return im, target, plate, site, compound, well
 

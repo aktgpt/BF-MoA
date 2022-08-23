@@ -170,9 +170,11 @@ class BaseTester:
         # self.save_correlation(feat_corr_mat, spatial_corr_mat)
 
         sample_moas = []
-        for target in targets:
+        pred_moas = []
+        for i, target in enumerate(targets):
             sample_moas.append(moas[target])
-
+            pred_moas.append(moas[outputs[i]])
+        
         df = pd.DataFrame(
             {
                 "plate": plates,
@@ -180,6 +182,7 @@ class BaseTester:
                 "site": sites,
                 "compound": compounds,
                 "moa": sample_moas,
+                "pred_moa": pred_moas,
                 "fv": list(feature_data),
             }
         )
