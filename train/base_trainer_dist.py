@@ -22,7 +22,7 @@ class BaseDistTrainer:
     def __init__(self, config, save_folder):
         self.config = config
         self.epochs = config["epochs"]
-        try: 
+        try:
             self.multilabel = config["multilabel"]
         except:
             self.multilabel = False
@@ -45,6 +45,7 @@ class BaseDistTrainer:
 
         self.lr = config["init_lr"]
         self.wd = config["wd"]
+        self.lr_schedule = config["lr_schedule"]
 
     def train(self, train_dataset, valid_dataloader, model):
         world_size = torch.cuda.device_count()
@@ -83,13 +84,9 @@ class BaseDistTrainer:
             weights = None
 
         if self.multilabel:
-            criterions = [
-                {"loss": nn.MultiLabelSoftMarginLoss().cuda(rank), "weight": 1}
-            ]
+            criterions = [{"loss": nn.MultiLabelSoftMarginLoss().cuda(rank), "weight": 1}]
         else:
-            criterions = [
-                {"loss": nn.CrossEntropyLoss(weight=weights).cuda(rank), "weight": 1}
-            ]
+            criterions = [{"loss": nn.CrossEntropyLoss(weight=weights).cuda(rank), "weight": 1}]
 
         batch_size = int(self.config["batch_size"] / world_size)
 
@@ -120,9 +117,9 @@ class BaseDistTrainer:
                 valid_df[x["loss"].__class__.__name__].to_list() for x in criterions
             ]
             best_accuracy = np.max(all_accuracies)
-            all_accuracies = pd.read_csv(
-                os.path.join(self.save_folder, "acc_valid.csv")
-            )["accuracies"].tolist()
+            all_accuracies = pd.read_csv(os.path.join(self.save_folder, "acc_valid.csv"))[
+                "accuracies"
+            ].tolist()
 
             optimizer.load_state_dict(self.checkpoint["optimizer_state_dict"])
             self.model.load_state_dict(self.checkpoint["model_state_dict"])
@@ -136,18 +133,14 @@ class BaseDistTrainer:
 
         for epoch in range(start_epoch, self.epochs + 1):
             train_sampler.set_epoch(epoch)
-            train_losses = self._train_epoch(
-                train_dataloader, optimizer, criterions, epoch, rank
-            )
-            # train_scheduler.step()
+            train_losses = self._train_epoch(train_dataloader, optimizer, criterions, epoch, rank)
+
             if rank == 0:
                 for i in range(len(all_train_losses_log)):
                     all_train_losses_log[i].extend(train_losses[i])
 
                     df_train = pd.DataFrame(all_train_losses_log).transpose()
-                    df_train.columns = [
-                        x["loss"].__class__.__name__ for x in criterions
-                    ]
+                    df_train.columns = [x["loss"].__class__.__name__ for x in criterions]
                     if epoch % 5 == 0:
                         self.plot_losses(df_train)
                     df_train.to_csv(os.path.join(self.save_folder, "losses_train.csv"))
@@ -172,9 +165,7 @@ class BaseDistTrainer:
                         all_valid_losses_log[i].extend(valid_losses[i])
 
                     df_valid = pd.DataFrame(all_valid_losses_log).transpose()
-                    df_valid.columns = [
-                        x["loss"].__class__.__name__ for x in criterions
-                    ]
+                    df_valid.columns = [x["loss"].__class__.__name__ for x in criterions]
                     self.plot_losses(df_valid, train=False)
                     df_valid.to_csv(os.path.join(self.save_folder, "losses_valid.csv"))
                     if epoch_accuracy > best_accuracy:
@@ -200,11 +191,13 @@ class BaseDistTrainer:
             sns.lineplot(x=idx, y=i + "_1", data=df, legend="brief", label=str(i))
         if train:
             plt.savefig(
-                os.path.join(self.save_folder, "train_losses.png"), dpi=300,
+                os.path.join(self.save_folder, "train_losses.png"),
+                dpi=300,
             )
         else:
             plt.savefig(
-                os.path.join(self.save_folder, "valid_losses.png"), dpi=300,
+                os.path.join(self.save_folder, "valid_losses.png"),
+                dpi=300,
             )
         plt.close()
 
@@ -223,10 +216,11 @@ class BaseDistTrainer:
             input = sample[0].cuda(rank).to(non_blocking=True)
             target = sample[1].cuda(rank).to(non_blocking=True)
 
-            lr = self.adjust_learning_rate(
-                optimizer, dataloader, batch_idx + epoch * len(dataloader)
-            )
-            print(epoch, batch_idx, lr)
+            if self.lr_schedule:
+                lr = self.adjust_learning_rate(
+                    optimizer, dataloader, batch_idx + epoch * len(dataloader)
+                )
+                print(epoch, batch_idx, lr)
 
             for param in self.model.parameters():
                 param.grad = None
@@ -311,8 +305,8 @@ class BaseDistTrainer:
 
 
 def worker_init_fn(worker_id):
-    base_seed = int(torch.randint(2 ** 32, (1,)).item())
-    lib_seed = (base_seed + worker_id) % (2 ** 32)
+    base_seed = int(torch.randint(2**32, (1,)).item())
+    lib_seed = (base_seed + worker_id) % (2**32)
     os.environ["PYTHONHASHSEED"] = str(lib_seed)
     random.seed(lib_seed)
     np.random.seed(lib_seed)

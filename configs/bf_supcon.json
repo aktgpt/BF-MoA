@@ -1,12 +1,12 @@
 {
     "exp_folder": "/proj/haste_berzelius/exps/specs_new_splits",
     "exp_name": "bf_exps_1_split1",
-    "exp_mode": "bf_11cls_chaug_1000e_adamw_oldnorm_oldsplit_oldsettingall",
-    "data": { 
+    "exp_mode": "bf_11cls_chaug_1000e_adamw_supcon",
+    "data": {
         "batch_size": 32,
-        "train_csv_path": "stats/train_val_test_splits/bf_subset_train_split1.csv",
-        "val_csv_path": "stats/train_val_test_splits/bf_subset_val_split1.csv",
-        "test_csv_path": "stats/train_val_test_splits/bf_subset_test_split1.csv",
+        "train_csv_path": "stats/new_train_val_test_splits/bf_subset_train_split1.csv",
+        "val_csv_path": "stats/new_train_val_test_splits/bf_subset_val_split1.csv",
+        "test_csv_path": "stats/new_train_val_test_splits/bf_subset_test_split1.csv",
         "moas": [
             "Aurora kinase inhibitor",
             "tubulin polymerization inhibitor",
@@ -20,14 +20,14 @@
             "HSP inhibitor",
             "dmso"
         ],
-        "dmso_stats_path": "stats/bf_dmso_stats.csv",
-        "normalization": "old"
+        "dmso_stats_path": "stats/final_stats/all_bf_stats_tif.csv",
+        "normalization": "well"
     },
     "train": {
-        "balanced": false,
+        "balanced": true,
         "lr_schedule": false,
         "batch_size": 64,
-        "trainer": "BaseDistTrainer",
+        "trainer": "SupConDistTrainer",
         "ckpt_path": false,
         "epochs": 1000,
         "init_lr": 0.001,

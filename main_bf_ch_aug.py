@@ -27,7 +27,7 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 import models as models
-from data.bf_dataset import BFDataset
+from data.bf_dataset import BFDataset, BFSupConDataset
 from train import main as train
 
 
@@ -59,11 +59,11 @@ colour_transforms = aug.Compose(
                 [
                     aug.GaussianBlur(),
                     aug.MotionBlur(),
-                    aug.RandomBrightnessContrast(
-                        brightness_limit=0.1,
-                        contrast_limit=0.1,
-                        brightness_by_max=False,
-                    ),
+                    # aug.RandomBrightnessContrast(
+                    #     brightness_limit=0.1,
+                    #     contrast_limit=0.1,
+                    #     brightness_by_max=False,
+                    # ),
                     aug.MedianBlur(blur_limit=3),
                     aug.GaussNoise(var_limit=(0.001, 0.005)),
                     aug.CoarseDropout(
@@ -74,29 +74,32 @@ colour_transforms = aug.Compose(
                         min_width=16,
                     ),
                 ],
-                p=0.5,
+                p=0.2,
             ),
-            p=0.75,
+            p=0.5,
         ),
         aug.FromFloat(max_value=65535.0),
     ]
 )
+# colour_transforms = aug.PerChannel(
+#     aug.OneOf(
+#         [
+#             aug.GaussianBlur(),
+#             aug.MotionBlur(),
+#             aug.MedianBlur(blur_limit=5),
+#             aug.GaussNoise(var_limit=(0.1, 1.0)),
+#             aug.CoarseDropout(
+#                 max_holes=32, max_height=32, max_width=32, min_height=16, min_width=16
+#             ),
+#         ],
+#         p=0.2,
+#     ),
+#     p=0.5,
+# )
 valid_transforms = aug.Compose([aug.Resize(1024, 1024)])
 
-moas = [
-    "Aurora kinase inhibitor",
-    "tubulin polymerization inhibitor",
-    "JAK inhibitor",
-    "protein synthesis inhibitor",
-    "HDAC inhibitor",
-    "topoisomerase inhibitor",
-    "PARP inhibitor",
-    "ATPase inhibitor",
-    "retinoid receptor agonist",
-    "HSP inhibitor",
-    "dmso",
-]
-dmso_stats_path = "stats/final_stats/all_bf_stats_tif.csv"  # "stats/bf_dmso_stats.csv"
+
+# dmso_stats_path = "stats/bf_dmso_stats.csv"  # "stats/final_stats/all_bf_stats_tif.csv"
 orig_image_path = "/proj/haste_berzelius/datasets/specs"
 
 
@@ -105,29 +108,19 @@ def transfer_files(file_list, dst_dir):
     for file in file_list:
         df = pd.read_csv(file)
         for index, row in tqdm(df.iterrows(), total=df.shape[0]):
-            img_path = (
-                orig_image_path
-                + row.path
-                + "/"
-                + os.path.splitext(row["C5"])[0]
-                + ".npy"
-            )
+            img_path = orig_image_path + row.path + "/" + os.path.splitext(row["C5"])[0] + ".npy"
             if os.path.exists(img_path):
                 new_img_dir = dst_dir + row.path
                 print(new_img_dir)
                 os.makedirs(new_img_dir, exist_ok=True)
-                if os.path.isfile(
-                    new_img_dir + "/" + os.path.splitext(row["C5"])[0] + ".npy"
-                ):
+                if os.path.isfile(new_img_dir + "/" + os.path.splitext(row["C5"])[0] + ".npy"):
                     pass
                 else:
                     shutil.copy(img_path, new_img_dir)
 
 
 def app(config):
-    exp_folder = os.path.join(
-        config["exp_folder"], config["exp_name"], config["exp_mode"]
-    )
+    exp_folder = os.path.join(config["exp_folder"], config["exp_name"], config["exp_mode"])
     if not os.path.exists(exp_folder):
         os.makedirs(exp_folder)
 
@@ -140,12 +133,12 @@ def app(config):
         config["data"]["data_folder"],
     )
 
-    train_dataset = BFDataset(
+    train_dataset = BFSupConDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["train_csv_path"],
-        normalize="comp",
-        dmso_stats_path=dmso_stats_path,
-        moas=moas,
+        normalize=config["data"]["normalization"],
+        dmso_stats_path=config["data"]["dmso_stats_path"],
+        moas=config["data"]["moas"],
         geo_transform=geo_transforms,
         colour_transform=colour_transforms,
     )
@@ -153,26 +146,24 @@ def app(config):
     valid_dataset = BFDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["val_csv_path"],
-        normalize="comp",
-        dmso_stats_path=dmso_stats_path,
-        moas=moas,
+        normalize=config["data"]["normalization"],
+        dmso_stats_path=config["data"]["dmso_stats_path"],
+        moas=config["data"]["moas"],
         geo_transform=valid_transforms,
     )
 
     test_dataset = BFDataset(
         root=config["data"]["data_folder"],
         csv_file=config["data"]["test_csv_path"],
-        normalize="comp",
-        dmso_stats_path=dmso_stats_path,
-        moas=moas,
+        normalize=config["data"]["normalization"],
+        dmso_stats_path=config["data"]["dmso_stats_path"],
+        moas=config["data"]["moas"],
         geo_transform=valid_transforms,
     )
 
     model_name = config["model"]["args"]["model_name"]
 
-    exp_folder_config = os.path.join(
-        exp_folder, f'{config["model"]["type"]}_{model_name}'
-    )
+    exp_folder_config = os.path.join(exp_folder, f'{config["model"]["type"]}_{model_name}')
 
     if not os.path.exists(exp_folder_config):
         os.makedirs(exp_folder_config)
@@ -203,10 +194,11 @@ if __name__ == "__main__":
     argparser = argparse.ArgumentParser(description="SearchFirst config file path")
     argparser.add_argument("-c", "--conf", help="path to configuration file")
     argparser.add_argument("-d", "--data_dir", help="path to dataset file")
-    argparser.add_argument(
-        "-r", "--random_seed", help="random_seed", default=42, type=int
+    argparser.add_argument("-r", "--random_seed", help="random_seed", default=42, type=int)
+    args = argparser.parse_args(
+        # ["-c", "configs/bf_supcon.json", "-d", "/proj/haste_berzelius/datasets/specs"]
     )
-    args = argparser.parse_args()
+
     config_path = args.conf
     data_path = args.data_dir
     random_seed = args.random_seed
