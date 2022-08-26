@@ -15,7 +15,7 @@
         "balanced": true,
         "batch_size": 64,
         "trainer": "BaseDistTrainer",
-        "ckpt_path": false,
+        "ckpt_path": "/proj/haste_berzelius/exps/specs_new_splits/fl_exps_1_split1/fl_11cls_MAD_chaug_1000e_adamw/ResNet_resnet50/model_ckpt.pth",
         "epochs": 1000,
         "init_lr": 1e-3,
         "wd": 1e-4
