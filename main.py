@@ -69,16 +69,16 @@ def app(config):
     if not os.path.exists(exp_folder):
         os.makedirs(exp_folder)
 
-    # transfer_files(
-    #     config["data_path"],
-    #     [
-    #         config["data"]["train_csv_path"],
-    #         config["data"]["val_csv_path"],
-    #         config["data"]["test_csv_path"],
-    #     ],
-    #     config["data"]["data_folder"],
-    #     bg_gen=config["data"]["bg_correct"],
-    # )
+    transfer_files(
+        config["data_path"],
+        [
+            config["data"]["train_csv_path"],
+            config["data"]["val_csv_path"],
+            config["data"]["test_csv_path"],
+        ],
+        config["data"]["data_folder"],
+        bg_gen=config["data"]["bg_correct"],
+    )
 
     geo_transforms, colour_transforms, valid_transforms = get_aug(config["data"]["aug_type"])
 
@@ -137,7 +137,7 @@ def app(config):
     )
     model = getattr(models, config["model"]["type"])(**config["model"]["args"])
 
-    # train.run(config["train"], train_dataset, valid_loader, model, exp_folder_config)
+    train.run(config["train"], train_dataset, valid_loader, model, exp_folder_config)
     test.run(config, test_loader, model, exp_folder_config)
 
 
