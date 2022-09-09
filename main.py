@@ -91,6 +91,7 @@ def app(config):
         geo_transform=geo_transforms,
         colour_transform=colour_transforms,
         bg_correct=config["data"]["bg_correct"],
+        modality=config["data"]["modality"],
     )
 
     valid_dataset = getattr(datasets, config["data"]["dataset"])(
@@ -101,6 +102,7 @@ def app(config):
         moas=config["data"]["moas"],
         geo_transform=valid_transforms,
         bg_correct=config["data"]["bg_correct"],
+        modality=config["data"]["modality"],
     )
 
     test_dataset = getattr(datasets, config["data"]["dataset"])(
@@ -111,6 +113,7 @@ def app(config):
         moas=config["data"]["moas"],
         geo_transform=valid_transforms,
         bg_correct=config["data"]["bg_correct"],
+        modality=config["data"]["modality"],
     )
 
     model_name = config["model"]["args"]["model_name"]
@@ -152,7 +155,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument("-r", "--random_seed", help="random_seed", default=42, type=int)
     args = argparser.parse_args(
-        # ["-c", "configs/bf.json", "-d", "/proj/haste_berzelius/datasets/specs"]
+        # ["-c", "configs/bf_bgcorrect.json", "-d", "/proj/haste_berzelius/datasets/specs"]
     )
 
     config_path = args.conf

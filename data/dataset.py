@@ -18,25 +18,35 @@ def dmso_difference(im, dmso_mean, dmso_std):
     return im - dmso_mean
 
 
-def get_normalization_stats(df, row, normalization_type):
+def get_normalization_stats(df, row, normalization_type, modality):
     plate = row.plate
     well = row.well
     compound = row.compound
     site = row.site
+    mean_cols = (
+        ["mean_" + str(i) for i in range(1, 7)]
+        if modality == "bf"
+        else ["mean_" + str(i) for i in range(1, 6)]
+    )
+    std_cols = (
+        ["std_" + str(i) for i in range(1, 7)]
+        if modality == "bf"
+        else ["std_" + str(i) for i in range(1, 6)]
+    )
     if normalization_type == "dmso":
         dmso_mean = df.loc[
             (df["plate"] == plate)
             & (df["compound"] == "dmso")
             & (df["well"] == "all")
             & (df["site"] == "all"),
-            ["mean_C1", "mean_C2", "mean_C3", "mean_C4", "mean_C5", "mean_C6"],
+            mean_cols,
         ].values
         dmso_std = df.loc[
             (df["plate"] == plate)
             & (df["compound"] == "dmso")
             & (df["well"] == "all")
             & (df["site"] == "all"),
-            ["std_C1", "std_C2", "std_C3", "std_C4", "std_C5", "std_C6"],
+            std_cols,
         ].values
 
     elif normalization_type == "comp":
@@ -45,14 +55,14 @@ def get_normalization_stats(df, row, normalization_type):
             & (df["compound"] == compound)
             & (df["well"] == "all")
             & (df["site"] == "all"),
-            ["mean_C1", "mean_C2", "mean_C3", "mean_C4", "mean_C5", "mean_C6"],
+            mean_cols,
         ].values
         dmso_std = df.loc[
             (df["plate"] == plate)
             & (df["compound"] == compound)
             & (df["well"] == "all")
             & (df["site"] == "all"),
-            ["std_C1", "std_C2", "std_C3", "std_C4", "std_C5", "std_C6"],
+            std_cols,
         ].values
     elif normalization_type == "well":
         dmso_mean = df.loc[
@@ -60,14 +70,14 @@ def get_normalization_stats(df, row, normalization_type):
             & (df["compound"] == compound)
             & (df["well"] == well)
             & (df["site"] == "all"),
-            ["mean_C1", "mean_C2", "mean_C3", "mean_C4", "mean_C5", "mean_C6"],
+            mean_cols,
         ].values
         dmso_std = df.loc[
             (df["plate"] == plate)
             & (df["compound"] == compound)
             & (df["well"] == well)
             & (df["site"] == "all"),
-            ["std_C1", "std_C2", "std_C3", "std_C4", "std_C5", "std_C6"],
+            std_cols,
         ].values
     elif normalization_type == "site":
         dmso_mean = df.loc[
@@ -75,14 +85,14 @@ def get_normalization_stats(df, row, normalization_type):
             & (df["compound"] == compound)
             & (df["well"] == well)
             & (df["site"] == site),
-            ["mean_C1", "mean_C2", "mean_C3", "mean_C4", "mean_C5", "mean_C6"],
+            mean_cols,
         ].values
         dmso_std = df.loc[
             (df["plate"] == plate)
             & (df["compound"] == compound)
             & (df["well"] == well)
             & (df["site"] == site),
-            ["std_C1", "std_C2", "std_C3", "std_C4", "std_C5", "std_C6"],
+            std_cols,
         ].values
     return dmso_mean, dmso_std
 
@@ -104,6 +114,7 @@ class MOADataset(Dataset):
         geo_transform=None,
         colour_transform=None,
         bg_correct=False,
+        modality="bf",  # "fl"
     ):
         self.root = root
         self.normalize = normalize
@@ -126,6 +137,7 @@ class MOADataset(Dataset):
         self.labels = np.array(self.df["moa"])
 
         self.bg_correct = bg_correct
+        self.modality = modality
 
     def __len__(self):
         return len(self.df)
@@ -153,7 +165,9 @@ class MOADataset(Dataset):
             if self.bg_correct:
                 image[:, :, ind] = image[:, :, ind] + min_c[ind]
             else:
-                mean, std = get_normalization_stats(self.dmso_stats_df, row, self.normalize)
+                mean, std = get_normalization_stats(
+                    self.dmso_stats_df, row, self.normalize, self.modality
+                )
                 image = dmso_normalization(image, mean, std)
 
         # Transpose to CNN shape
