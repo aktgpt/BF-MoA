@@ -40,7 +40,7 @@ def set_random_seed(seed):
     torch.backends.cudnn.deterministic = True
 
 
-def transfer_files(orig_image_path, file_list, dst_dir, bg_gen=False):
+def transfer_files(src_dir, file_list, dst_dir, bg_gen=False):
     print("Copying files to {}".format(dst_dir))
     img_paths = []
     new_img_paths = []
@@ -48,17 +48,16 @@ def transfer_files(orig_image_path, file_list, dst_dir, bg_gen=False):
         df = pd.read_csv(file)
         for _, row in tqdm(df.iterrows(), total=df.shape[0]):
             if bg_gen:
-                img_path = orig_image_path + os.path.splitext(row.path)[0] + "_bg_corrected.npy"
+                img_path = os.path.splitext(row.path)[0] + "_bg_corrected.npy"
             else:
-                img_path = orig_image_path + row.path
+                img_path = row.path
 
-            new_image_folder = os.path.split(img_path)[0].replace(orig_image_path, dst_dir)
+            new_image_folder = dst_dir + os.path.split(img_path)[0]
             if not os.path.exists(new_image_folder):
                 os.makedirs(new_image_folder)
 
-            new_img_path = dst_dir + row.path
-            img_paths.append(img_path)
-            new_img_paths.append(new_img_path)
+            img_paths.append(src_dir + img_path)
+            new_img_paths.append(dst_dir + img_path)
 
     ThreadedCopy(img_paths, new_img_paths)
     print("Done copying files")
