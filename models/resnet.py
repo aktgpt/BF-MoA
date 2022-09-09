@@ -82,10 +82,13 @@ class ResNet(nn.Module):
 
         return x
 
-    def forward(self, x):
+    def forward(self, x, features=False):
         feat = self.forward_features(x)
-        x = self.fc(feat)
-        return x, feat
+        if features:
+            return feat
+        else:
+            x = self.fc(feat)
+            return x, feat
 
 
 class ResNetSSL(nn.Module):

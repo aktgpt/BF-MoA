@@ -28,37 +28,40 @@ from sklearn.metrics import (
 )
 from sklearn.decomposition import NMF, PCA
 import umap
+import colorcet as cc
 
-moas = [
-    "Aurora kinase inhibitor",
-    "tubulin polymerization inhibitor",
-    "JAK inhibitor",
-    "protein synthesis inhibitor",
-    "HDAC inhibitor",
-    "topoisomerase inhibitor",
-    "PARP inhibitor",
-    "ATPase inhibitor",
-    "retinoid receptor agonist",
-    "HSP inhibitor",
-    "dmso",
-]
-moas = np.sort(moas)
+# moas = [
+#     "Aurora kinase inhibitor",
+#     "tubulin polymerization inhibitor",
+#     "JAK inhibitor",
+#     "protein synthesis inhibitor",
+#     "HDAC inhibitor",
+#     "topoisomerase inhibitor",
+#     "PARP inhibitor",
+#     "ATPase inhibitor",
+#     "retinoid receptor agonist",
+#     "HSP inhibitor",
+#     "dmso",
+# ]
+# moas = np.sort(moas)
 
-site_conversion = pd.DataFrame(
-    {"bf_sites": ["s1", "s2", "s3", "s4", "s5"], "f_sites": ["s2", "s4", "s5", "s6", "s8"]}
-)
+# site_conversion = pd.DataFrame(
+#     {"bf_sites": ["s1", "s2", "s3", "s4", "s5"], "f_sites": ["s2", "s4", "s5", "s6", "s8"]}
+# )
 
 
 class BaseTester:
     def __init__(self, config, save_folder):
-        self.config = config
+        self.moas = np.sort(config["data"]["moas"])
+        self.config = config["test"]
+
         try:
-            self.multilabel = config["multilabel"]
+            self.multilabel = self.config["multilabel"]
         except:
             self.multilabel = False
 
         try:
-            self.scale = config["scale"]
+            self.scale = self.config["scale"]
         except:
             self.scale = None
 
@@ -81,7 +84,7 @@ class BaseTester:
         if not os.path.exists(self.plot_folder):
             os.makedirs(self.plot_folder)
 
-        self.model_checkpoint = torch.load(os.path.join(save_folder, config["model_path"]))
+        self.model_checkpoint = torch.load(os.path.join(save_folder, self.config["model_path"]))
 
     def test(self, test_dataloader, model):
         world_size = torch.cuda.device_count()
@@ -94,7 +97,10 @@ class BaseTester:
             self.model_checkpoint["model_state_dict"],
         )
         best_train_epoch = self.model_checkpoint["epoch"]
-        best_train_accuracy = self.model_checkpoint["epoch_accuracy"]
+        try:
+            best_train_accuracy = self.model_checkpoint["epoch_accuracy"]
+        except:
+            best_train_accuracy = 1
         print(f"Loading model with Epoch:{best_train_epoch},Accuracy:{best_train_accuracy}")
 
         accuracy = self._test_epoch(test_dataloader)
@@ -172,9 +178,9 @@ class BaseTester:
         sample_moas = []
         pred_moas = []
         for i, target in enumerate(targets):
-            sample_moas.append(moas[target])
-            pred_moas.append(moas[outputs[i]])
-        
+            sample_moas.append(self.moas[target])
+            pred_moas.append(self.moas[outputs[i]])
+
         df = pd.DataFrame(
             {
                 "plate": plates,
@@ -187,7 +193,8 @@ class BaseTester:
             }
         )
         df.to_pickle(os.path.join(self.save_folder, "analysis"))
-        self.plot_umaps(df, feature_data)
+        df = self.plot_umaps(df, feature_data)
+        df.to_csv(os.path.join(self.save_folder, "analysis.csv"))
         # self.plot_umap(targets, feature_data)
 
         if self.multilabel:
@@ -334,7 +341,7 @@ class BaseTester:
             x="x",
             y="y",
             hue="moa",
-            palette=sns.color_palette("Paired", 11),
+            palette=sns.color_palette(cc.glasbey, len(self.moas)),
             legend="brief",
             s=100,
             alpha=0.9,
@@ -348,7 +355,7 @@ class BaseTester:
             y="y",
             hue="moa",
             style="compound",
-            palette=sns.color_palette("Paired", 11),
+            palette=sns.color_palette(cc.glasbey, len(self.moas)),
             legend="brief",
             s=100,
             alpha=0.9,
@@ -364,7 +371,7 @@ class BaseTester:
             y="y",
             hue="moa",
             style="well",
-            palette=sns.color_palette("Paired", 11),
+            palette=sns.color_palette(cc.glasbey, len(self.moas)),
             legend=False,
             s=100,
             alpha=0.9,
@@ -380,7 +387,7 @@ class BaseTester:
             y="y",
             hue="moa",
             style="plate",
-            palette=sns.color_palette("Paired", 11),
+            palette=sns.color_palette(cc.glasbey, len(self.moas)),
             legend=False,
             s=100,
             alpha=0.9,
@@ -390,7 +397,7 @@ class BaseTester:
         ylim = ax.get_ylim()
         plt.savefig(os.path.join(self.plot_folder, "test_embed_moa_plate.png"), dpi=500)
         plt.close()
-        for moa in moas:
+        for moa in self.moas:
             df_moa = df[df["moa"] == moa]
             fig, ax = plt.subplots(1, figsize=(16, 12))
             scatter = sns.scatterplot(
@@ -398,7 +405,7 @@ class BaseTester:
                 y="y",
                 hue="compound",
                 style="well",
-                # palette=sns.color_palette("Paired", 11),
+                # palette=sns.color_palette(cc.glasbey, len(moas)),
                 legend=False,
                 s=100,
                 alpha=0.9,
@@ -414,7 +421,7 @@ class BaseTester:
                 y="y",
                 hue="compound",
                 style="site",
-                # palette=sns.color_palette("Paired", 11),
+                # palette=sns.color_palette(cc.glasbey, len(moas)),
                 legend="brief",
                 s=100,
                 alpha=0.9,
@@ -430,7 +437,7 @@ class BaseTester:
                 y="y",
                 hue="compound",
                 style="plate",
-                # palette=sns.color_palette("Paired", 11),
+                # palette=sns.color_palette(cc.glasbey, len(moas)),
                 legend="brief",
                 s=100,
                 alpha=0.9,
@@ -440,6 +447,7 @@ class BaseTester:
             plt.ylim(list(ylim))
             plt.savefig(os.path.join(self.plot_folder, f"{moa}_plate_compound.png"), dpi=500)
             plt.close()
+        return df
 
 
 def make_cam(x, epsilon=1e-5):

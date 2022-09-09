@@ -34,12 +34,12 @@ class SupConLoss(nn.Module):
 
         labels = labels.contiguous().view(-1, 1)
         mask = torch.eq(labels, labels.T).float()
-        self_con_mask = torch.scatter(
-            torch.ones_like(mask),
-            1,
-            torch.arange(batch_size).view(-1, 1).to(device),
-            0,
-        )
+        # self_con_mask = torch.scatter(
+        #     torch.ones_like(mask),
+        #     1,
+        #     torch.arange(batch_size).view(-1, 1).to(device),
+        #     0,
+        # )
         positive_mask = mask  # * self_con_mask
         negative_mask = 1 - positive_mask  # * self_con_mask
 

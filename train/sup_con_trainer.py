@@ -19,7 +19,6 @@ from sklearn.metrics import accuracy_score, balanced_accuracy_score
 from torch import nn, optim
 from torch.distributed.optim import ZeroRedundancyOptimizer
 from torch.multiprocessing import Lock
-from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader
 from torch.utils.data.sampler import WeightedRandomSampler
 from utils.metrics import get_metrics
@@ -48,6 +47,18 @@ def make_weights_for_balanced_classes(labels):
     for i, val in enumerate(labels):
         weights[i] = weight_per_class[np.where(unique_labels == val)[0][0]]
     return weights
+
+
+class MyDataParallel(nn.DataParallel):
+    def __init__(self, module, my_methods=["forward"], device_ids=None, output_device=None, dim=0):
+        self._mymethods = my_methods
+        super().__init__(module, device_ids, output_device, dim)
+
+    def __getattr__(self, name):
+        if name in self._mymethods:
+            return getattr(self.module, name)
+        else:
+            return super().__getattr__(name)
 
 
 class SupConDistTrainer:
@@ -83,27 +94,27 @@ class SupConDistTrainer:
     def train(self, train_dataset, valid_dataloader, model):
         world_size = torch.cuda.device_count()
 
-        self.model = nn.DataParallel(model.cuda())
+        self.model = MyDataParallel(model, my_methods=["forward_features", "fc", "layer4"]).cuda()
 
-        self.projection_head = nn.DataParallel(
+        self.projection_head = MyDataParallel(
             nn.Sequential(
                 nn.Linear(model.inplanes, model.inplanes),
                 nn.ReLU(),
                 nn.Linear(model.inplanes, 256),
             )
-        )
+        ).cuda()
 
         optimizer = optim.AdamW(
             list(self.model.parameters()) + list(self.projection_head.parameters()), lr=self.lr
         )
         optimizer_cls = optim.AdamW(
             [
-                {"params": self.model.module.fc.parameters(), "lr": self.supervised_lr},
-                {"params": self.model.module.layer4.parameters(), "lr": self.supervised_lr * 0.01},
+                {"params": self.model.fc.parameters(), "lr": self.supervised_lr},
+                {"params": self.model.layer4.parameters(), "lr": self.supervised_lr * 0.01},
             ]
         )
 
-        criterions = [{"loss": SupConLoss(temperature=0.2).cuda(), "weight": 1}]
+        criterions = [{"loss": SupConLoss(temperature=0.5).cuda(), "weight": 1}]
         criterions_cls = [{"loss": nn.CrossEntropyLoss().cuda(), "weight": 1}]
 
         batch_size = int(self.config["batch_size"] / world_size)
@@ -251,7 +262,16 @@ class SupConDistTrainer:
         for batch_idx, sample in enumerate(dataloader):
             x_i = sample[0].cuda().to(non_blocking=True)
             x_j = sample[1].cuda().to(non_blocking=True)
-            labels = sample[2].cuda().to(non_blocking=True)
+            if self.config["label_type"] == "moa":
+                labels = sample[2].cuda().to(non_blocking=True)
+            else:
+                labels = (
+                    torch.tensor(
+                        pd.DataFrame({"comp": sample[5]}).astype("category").comp.cat.codes.values
+                    )
+                    .cuda()
+                    .to(non_blocking=True)
+                )
 
             if self.lr_schedule:
                 lr = self.adjust_learning_rate(
@@ -262,8 +282,8 @@ class SupConDistTrainer:
             for param in self.model.parameters():
                 param.grad = None
 
-            z_i = self.projection_head(self.model.module.forward_features(x_i))
-            z_j = self.projection_head(self.model.module.forward_features(x_j))
+            z_i = self.projection_head(self.model.forward_features(x_i))
+            z_j = self.projection_head(self.model.forward_features(x_j))
 
             losses = []
             loss = 0

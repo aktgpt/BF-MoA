@@ -74,7 +74,10 @@ class BaseDistTrainer:
 
         self.model = DDP(model, device_ids=[rank])  # , find_unused_parameters=True)
 
-        optimizer = optim.AdamW(self.model.parameters(), lr=self.lr)
+        # optimizer = optim.AdamW(self.model.parameters(), lr=self.lr, weight_decay=self.wd)
+        optimizer = optim.SGD(
+            self.model.parameters(), lr=self.lr, momentum=0.9, weight_decay=self.wd
+        )
 
         if self.balanced:
             _, counts = np.unique(train_dataset.labels, return_counts=True)
@@ -117,6 +120,7 @@ class BaseDistTrainer:
                 valid_df[x["loss"].__class__.__name__].to_list() for x in criterions
             ]
             best_accuracy = np.max(all_accuracies)
+            epoch_accuracy = all_accuracies[-1]
             all_accuracies = pd.read_csv(os.path.join(self.save_folder, "acc_valid.csv"))[
                 "accuracies"
             ].tolist()
@@ -130,6 +134,7 @@ class BaseDistTrainer:
             all_valid_losses_log = [[] for i in range(len(criterions))]
             best_accuracy = -np.inf
             all_accuracies = []
+            epoch_accuracy = 0.0
 
         for epoch in range(start_epoch, self.epochs + 1):
             train_sampler.set_epoch(epoch)
@@ -148,6 +153,7 @@ class BaseDistTrainer:
                         {
                             "model_state_dict": self.model.state_dict(),
                             "epoch": epoch,
+                            "epoch_accuracy": epoch_accuracy,
                             "optimizer_state_dict": optimizer.state_dict(),
                         },
                         os.path.join(self.save_folder, f"model_ckpt.pth"),
@@ -179,22 +185,35 @@ class BaseDistTrainer:
                             },
                             os.path.join(self.save_folder, f"model_best_accuracy.pth"),
                         )
-
+            # if epoch % 100 == 0:
+            #     torch.save(
+            #         {
+            #             "model_state_dict": self.model.state_dict(),
+            #             "epoch": epoch,
+            #             "epoch_accuracy": epoch_accuracy,
+            #         },
+            #         os.path.join(self.save_folder, f"model_ckpt_epoch_{epoch}.pth"),
+            #     )
         cleanup()
         return self.save_folder
 
     def plot_losses(self, df, train=True):
         df.clip(lower=0, upper=5, inplace=True)
-        idx = np.arange(0, len(df), 1)
-        for i in list(df):
-            df[i + "_1"] = df[i].rolling(100).mean()
-            sns.lineplot(x=idx, y=i + "_1", data=df, legend="brief", label=str(i))
+
         if train:
+            idx = np.arange(0, len(df), 1)
+            for i in list(df):
+                df[i + "_1"] = df[i].rolling(100).mean()
+                sns.lineplot(x=idx, y=i + "_1", data=df, legend="brief", label=str(i))
             plt.savefig(
                 os.path.join(self.save_folder, "train_losses.png"),
                 dpi=300,
             )
         else:
+            idx = np.arange(0, len(df), 1)
+            for i in list(df):
+                df[i + "_1"] = df[i].rolling(50).mean()
+                sns.lineplot(x=idx, y=i + "_1", data=df, legend="brief", label=str(i))
             plt.savefig(
                 os.path.join(self.save_folder, "valid_losses.png"),
                 dpi=300,
@@ -237,6 +256,7 @@ class BaseDistTrainer:
                 loss += criterion["weight"] * loss_class
 
             loss.backward()
+            # torch.nn.utils.clip_grad_norm_(self.model.parameters(), 1)
             optimizer.step()
 
             total_loss += loss.item()
@@ -289,7 +309,7 @@ class BaseDistTrainer:
 
     def adjust_learning_rate(self, optimizer, loader, step):
         max_steps = self.epochs * len(loader)
-        warmup_steps = 50 * len(loader)
+        warmup_steps = 10 * len(loader)
         base_lr = self.lr
         if step < warmup_steps:
             lr = base_lr * step / warmup_steps
