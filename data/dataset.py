@@ -24,14 +24,14 @@ def get_normalization_stats(df, row, normalization_type, modality):
     compound = row.compound
     site = row.site
     mean_cols = (
-        ["mean_" + str(i) for i in range(1, 7)]
+        ["mean_C" + str(i) for i in range(1, 7)]
         if modality == "bf"
-        else ["mean_" + str(i) for i in range(1, 6)]
+        else ["mean_C" + str(i) for i in range(1, 6)]
     )
     std_cols = (
-        ["std_" + str(i) for i in range(1, 7)]
+        ["std_C" + str(i) for i in range(1, 7)]
         if modality == "bf"
-        else ["std_" + str(i) for i in range(1, 6)]
+        else ["std_C" + str(i) for i in range(1, 6)]
     )
     if normalization_type == "dmso":
         dmso_mean = df.loc[

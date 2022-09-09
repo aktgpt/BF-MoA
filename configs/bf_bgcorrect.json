@@ -29,7 +29,8 @@
         ],
         "bg_correct": true,
         "batch_size": 32,
-        "aug_type": "ch_aug"
+        "aug_type": "ch_aug",
+        "modality": "bf"
     },
     "train": {
         "balanced": true,
