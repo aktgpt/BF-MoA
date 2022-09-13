@@ -31,14 +31,14 @@ def get_aug(aug_type):
                     min_width=16,
                 ),
             ],
-            p=0.5,
+            p=0.333,
         )
     ]
     if aug_type == "ch_aug":
         colour_transforms = aug.Compose(
             [
                 aug.ToFloat(max_value=65535.0),
-                aug.PerChannel(color_augs, p=0.75),
+                aug.PerChannel(color_augs, p=0.5),
                 aug.FromFloat(dtype="float64", max_value=65535.0),
             ]
         )
@@ -46,7 +46,7 @@ def get_aug(aug_type):
         colour_transforms = aug.Compose(
             [
                 aug.ToFloat(max_value=65535.0),
-                aug.Compose(color_augs, p=0.75),
+                aug.Compose(color_augs, p=0.5),
                 aug.FromFloat(dtype="float64", max_value=65535.0),
             ]
         )

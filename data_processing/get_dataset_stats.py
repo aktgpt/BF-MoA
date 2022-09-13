@@ -12,6 +12,16 @@ import string
 
 image_path = "/proj/haste_berzelius/datasets/specs"
 
+# df_grit_based = pd.read_csv("stats/grit_based/fl_grit_based_stats.csv")
+# df_grit_based = df_grit_based[df_grit_based.compound == "dmso"]
+
+# df_non_grit_based = pd.read_csv("stats/non_grit_based/fl_non_grit_based_stats.csv")
+# df_non_grit_based = pd.concat([df_non_grit_based, df_grit_based], axis=0)
+# df_non_grit_based = df_non_grit_based.drop_duplicates(
+#     subset=["plate", "compound", "well", "site"], keep="first"
+# )
+# df_non_grit_based.to_csv("stats/non_grit_based/fl_non_grit_based_stats.csv", index=False)
+
 
 def get_dataset_stats(image_path, all_dataset_df, mode):
     unique_plates = np.unique(all_dataset_df.plate)
@@ -41,7 +51,10 @@ def get_dataset_stats(image_path, all_dataset_df, mode):
 
                 well_images = []
                 for index, row in df_plate_compound_well.iterrows():
-                    image = np.load(image_path + row.path)
+                    # image = np.load(image_path + row.path)
+                    image = np.load(
+                        image_path + os.path.splitext(row.path)[0] + "_bg_corrected.npy"
+                    )
 
                     # site mean
                     site_mean = np.mean(image, axis=(0, 1))
@@ -124,7 +137,14 @@ def get_dataset_stats(image_path, all_dataset_df, mode):
 # stats_df = get_dataset_stats(image_path, bf_all_dataset_df, mode="bf")
 # stats_df.to_csv(f"stats/grit_based/bf_grit_based_stats.csv", index=False)
 
-fl_all_dataset_df = pd.read_csv("stats/grit_based/fl_grit_based_numpy.csv")
-stats_df = get_dataset_stats(image_path, fl_all_dataset_df, mode="fl")
-stats_df.to_csv(f"stats/grit_based/fl_grit_based_stats.csv", index=False)
-# get_dataset_stats(image_path, fl_all_dataset_df, mode="fl")
+# fl_all_dataset_df = pd.read_csv("stats/grit_based/fl_grit_based_numpy.csv")
+# stats_df = get_dataset_stats(image_path, fl_all_dataset_df, mode="fl")
+# stats_df.to_csv(f"stats/grit_based/fl_grit_based_stats.csv", index=False)
+
+bf_all_dataset_df = pd.read_csv("stats/non_grit_based/bf_non_grit_based_numpy.csv")
+stats_df = get_dataset_stats(image_path, bf_all_dataset_df, mode="bf")
+stats_df.to_csv(f"stats/non_grit_based/bf_non_grit_based_stats_bgcorrect.csv", index=False)
+
+# fl_all_dataset_df = pd.read_csv("stats/non_grit_based/fl_non_grit_based_numpy.csv")
+# stats_df = get_dataset_stats(image_path, fl_all_dataset_df, mode="fl")
+# stats_df.to_csv(f"stats/non_grit_based/fl_non_grit_based_stats.csv", index=False)

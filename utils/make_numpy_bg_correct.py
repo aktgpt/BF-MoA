@@ -24,7 +24,9 @@ def gkern(sigma=3):
     return gkern2d
 
 
-image_path = "/proj/haste_berzelius/datasets/specs/scratch3-shared/phil/grit_based_numpy_data/bf/"
+image_path = (
+    "/proj/haste_berzelius/datasets/specs/scratch3-shared/phil/non_grit_based_numpy_data/bf/"
+)
 
 all_files = sorted(glob.glob(image_path + "/**/*.npy", recursive=True))
 all_files_filtered = [f for f in all_files if "bg_corrected.npy" not in f]
@@ -37,7 +39,7 @@ gaussian_kernel = gkern(sigma=50)
 gaussian_kernel_sum = np.sum(gaussian_kernel)
 gaussian_kernel = gaussian_kernel[..., np.newaxis].repeat(6, -1)
 
-# stats = []
+stats = []
 
 for file in tqdm.tqdm(all_files_filtered):
     image = np.load(file)
@@ -51,9 +53,9 @@ for file in tqdm.tqdm(all_files_filtered):
         )
         bg_corrected = np.round(image - bg).astype(np.int16)
         np.save(os.path.splitext(file)[0] + "_bg_corrected.npy", bg_corrected)
-# stats.append(
-#             np.percentile(bg_corrected, [0, 1, 5, 10, 25, 50, 75, 90, 95, 99, 100], axis=(0, 1))
-#         )
+    # stats.append(np.percentile(image, [0, 1, 5, 10, 25, 50, 75, 90, 95, 99, 100], axis=(0, 1)))
+
+x = 1
 # np.save("bg_corrected_stats.npy", np.array(stats))
 
 

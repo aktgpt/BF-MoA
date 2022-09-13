@@ -1,7 +1,7 @@
 {
     "exp_folder": "/proj/haste_berzelius/exps/specs_grit_based",
     "exp_name": "bf_exps_1_split1",
-    "exp_mode": "bf_15cls_ch_aug_wellnorm_750e_sgd_bg_correct",
+    "exp_mode": "bf_15cls_ch_aug_wellnorm_750e_sgd_bg_correct_aug_0.5_0.33",
     "data_path": "/proj/haste_berzelius/datasets/specs",
     "data": {
         "dataset": "MOADataset",
@@ -37,7 +37,7 @@
         "lr_schedule": true,
         "batch_size": 64,
         "trainer": "BaseDistTrainer",
-        "ckpt_path": false,
+        "ckpt_path": "model_ckpt.pth",
         "epochs": 750,
         "init_lr": 0.05,
         "wd": 1e-4

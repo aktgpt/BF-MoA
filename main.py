@@ -68,18 +68,10 @@ def app(config):
     if not os.path.exists(exp_folder):
         os.makedirs(exp_folder)
 
-    transfer_files(
-        config["data_path"],
-        [
-            config["data"]["train_csv_path"],
-            config["data"]["val_csv_path"],
-            config["data"]["test_csv_path"],
-        ],
-        config["data"]["data_folder"],
-        bg_gen=config["data"]["bg_correct"],
-    )
-
     geo_transforms, colour_transforms, valid_transforms = get_aug(config["data"]["aug_type"])
+    print("Geo transforms: {}".format(geo_transforms), flush=True)
+    print("Colour transforms: {}".format(colour_transforms), flush=True)
+    print("Valid transforms: {}".format(valid_transforms), flush=True)
 
     train_dataset = getattr(datasets, config["data"]["dataset"])(
         root=config["data"]["data_folder"],
@@ -91,6 +83,7 @@ def app(config):
         colour_transform=colour_transforms,
         bg_correct=config["data"]["bg_correct"],
         modality=config["data"]["modality"],
+        mean_mode=config["data"]["mean_mode"],
     )
 
     valid_dataset = getattr(datasets, config["data"]["dataset"])(
@@ -102,6 +95,7 @@ def app(config):
         geo_transform=valid_transforms,
         bg_correct=config["data"]["bg_correct"],
         modality=config["data"]["modality"],
+        mean_mode=config["data"]["mean_mode"],
     )
 
     test_dataset = getattr(datasets, config["data"]["dataset"])(
@@ -113,6 +107,7 @@ def app(config):
         geo_transform=valid_transforms,
         bg_correct=config["data"]["bg_correct"],
         modality=config["data"]["modality"],
+        mean_mode=config["data"]["mean_mode"],
     )
 
     model_name = config["model"]["args"]["model_name"]
@@ -122,6 +117,17 @@ def app(config):
         os.makedirs(exp_folder_config)
     with open(os.path.join(exp_folder_config, "config_exp.json"), "w") as fp:
         json.dump(config, fp)
+
+    transfer_files(
+        config["data_path"],
+        [
+            config["data"]["train_csv_path"],
+            config["data"]["val_csv_path"],
+            config["data"]["test_csv_path"],
+        ],
+        config["data"]["data_folder"],
+        bg_gen=config["data"]["bg_correct"],
+    )
 
     valid_loader = DataLoader(
         valid_dataset,

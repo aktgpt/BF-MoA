@@ -18,22 +18,42 @@ def dmso_difference(im, dmso_mean, dmso_std):
     return im - dmso_mean
 
 
-def get_normalization_stats(df, row, normalization_type, modality):
+def get_normalization_stats(df, row, normalization_type, modality, mean_mode="mean"):
     plate = row.plate
     well = row.well
     compound = row.compound
     site = row.site
+
+    mean_col_name = "mean_C" if mean_mode == "mean" else "median_C"
+    std_col_name = "std_C" if mean_mode == "mean" else "mad_C"
+
     mean_cols = (
-        ["mean_C" + str(i) for i in range(1, 7)]
+        [mean_col_name + str(i) for i in range(1, 7)]
         if modality == "bf"
-        else ["mean_C" + str(i) for i in range(1, 6)]
+        else [mean_col_name + str(i) for i in range(1, 6)]
     )
     std_cols = (
-        ["std_C" + str(i) for i in range(1, 7)]
+        [std_col_name + str(i) for i in range(1, 7)]
         if modality == "bf"
-        else ["std_C" + str(i) for i in range(1, 6)]
+        else [std_col_name + str(i) for i in range(1, 6)]
     )
-    if normalization_type == "dmso":
+
+    if normalization_type == "plate":
+        dmso_mean = df.loc[
+            (df["plate"] == plate)
+            & (df["compound"] == "all")
+            & (df["well"] == "all")
+            & (df["site"] == "all"),
+            mean_cols,
+        ].values
+        dmso_std = df.loc[
+            (df["plate"] == plate)
+            & (df["compound"] == "all")
+            & (df["well"] == "all")
+            & (df["site"] == "all"),
+            std_cols,
+        ].values
+    elif normalization_type == "dmso":
         dmso_mean = df.loc[
             (df["plate"] == plate)
             & (df["compound"] == "dmso")
@@ -48,7 +68,6 @@ def get_normalization_stats(df, row, normalization_type, modality):
             & (df["site"] == "all"),
             std_cols,
         ].values
-
     elif normalization_type == "comp":
         dmso_mean = df.loc[
             (df["plate"] == plate)
@@ -108,13 +127,14 @@ class MOADataset(Dataset):
         self,
         root,
         csv_file,
-        normalize="dmso",  # False, "well", "dmso"
+        normalize="dmso",  # False, "well", "dmso", "image", "plate"
         dmso_stats_path=None,
         moas=None,
         geo_transform=None,
         colour_transform=None,
         bg_correct=False,
         modality="bf",  # "fl"
+        mean_mode="mean",
     ):
         self.root = root
         self.normalize = normalize
@@ -138,6 +158,7 @@ class MOADataset(Dataset):
 
         self.bg_correct = bg_correct
         self.modality = modality
+        self.mean_mode = mean_mode
 
     def __len__(self):
         return len(self.df)
@@ -148,8 +169,8 @@ class MOADataset(Dataset):
         if self.bg_correct:
             image = np.load(self.root + os.path.splitext(row.path)[0] + "_bg_corrected.npy")
             min_c = np.min(image, axis=(0, 1))
-            ind = np.where(min_c < 0)
-            image[:, :, ind] = image[:, :, ind] - min_c[ind]
+            # ind = np.where(min_c < 0)
+            image = image - min_c
         else:
             image = np.load(self.root + row.path)
 
@@ -163,10 +184,10 @@ class MOADataset(Dataset):
 
         if self.normalize:
             if self.bg_correct:
-                image[:, :, ind] = image[:, :, ind] + min_c[ind]
+                image = image + min_c
             else:
                 mean, std = get_normalization_stats(
-                    self.dmso_stats_df, row, self.normalize, self.modality
+                    self.dmso_stats_df, row, self.normalize, self.modality, self.mean_mode
                 )
                 image = dmso_normalization(image, mean, std)
 

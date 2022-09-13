@@ -119,11 +119,11 @@ class BaseDistTrainer:
             all_valid_losses_log = [
                 valid_df[x["loss"].__class__.__name__].to_list() for x in criterions
             ]
-            best_accuracy = np.max(all_accuracies)
-            epoch_accuracy = all_accuracies[-1]
             all_accuracies = pd.read_csv(os.path.join(self.save_folder, "acc_valid.csv"))[
                 "accuracies"
             ].tolist()
+            best_accuracy = np.max(all_accuracies)
+            epoch_accuracy = all_accuracies[-1]
 
             optimizer.load_state_dict(self.checkpoint["optimizer_state_dict"])
             self.model.load_state_dict(self.checkpoint["model_state_dict"])
@@ -132,8 +132,8 @@ class BaseDistTrainer:
             start_epoch = 1
             all_train_losses_log = [[] for i in range(len(criterions))]
             all_valid_losses_log = [[] for i in range(len(criterions))]
-            best_accuracy = -np.inf
             all_accuracies = []
+            best_accuracy = -np.inf
             epoch_accuracy = 0.0
 
         for epoch in range(start_epoch, self.epochs + 1):
