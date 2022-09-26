@@ -16,11 +16,6 @@ def get_aug(aug_type):
             [
                 aug.GaussianBlur(),
                 aug.MotionBlur(),
-                aug.RandomBrightnessContrast(
-                    brightness_limit=0.1,
-                    contrast_limit=0.1,
-                    brightness_by_max=False,
-                ),
                 aug.MedianBlur(blur_limit=3),
                 aug.GaussNoise(var_limit=(0.001, 0.005)),
                 aug.CoarseDropout(
@@ -31,18 +26,20 @@ def get_aug(aug_type):
                     min_width=16,
                 ),
             ],
-            p=0.333,
+            # p=0.2,
+            p=1.0,
         )
     ]
-    if aug_type == "ch_aug":
+    if "ch_aug" in aug_type:
         colour_transforms = aug.Compose(
             [
                 aug.ToFloat(max_value=65535.0),
-                aug.PerChannel(color_augs, p=0.5),
+                # aug.PerChannel(color_augs, p=0.5),
+                aug.PerChannel2(color_augs, n_channels_to_aug=1, p=0.5),
                 aug.FromFloat(dtype="float64", max_value=65535.0),
             ]
         )
-    elif aug_type == "global_aug":
+    elif "global_aug" in aug_type:
         colour_transforms = aug.Compose(
             [
                 aug.ToFloat(max_value=65535.0),

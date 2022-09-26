@@ -94,15 +94,20 @@ class SupConDistTrainer:
     def train(self, train_dataset, valid_dataloader, model):
         world_size = torch.cuda.device_count()
 
-        self.model = MyDataParallel(model, my_methods=["forward_features", "fc", "layer4"]).cuda()
+        self.model = MyDataParallel(
+            model.cuda(),
+            my_methods=["forward_features", "fc", "layer4"],
+            device_ids=[torch.device(f"cuda:{i}") for i in range(world_size)],
+        )
 
         self.projection_head = MyDataParallel(
             nn.Sequential(
                 nn.Linear(model.inplanes, model.inplanes),
                 nn.ReLU(),
-                nn.Linear(model.inplanes, 256),
-            )
-        ).cuda()
+                nn.Linear(model.inplanes, 512),
+            ).cuda(),
+            device_ids=[torch.device(f"cuda:{i}") for i in range(world_size)],
+        )
 
         optimizer = optim.AdamW(
             list(self.model.parameters()) + list(self.projection_head.parameters()), lr=self.lr
@@ -110,16 +115,21 @@ class SupConDistTrainer:
         optimizer_cls = optim.AdamW(
             [
                 {"params": self.model.fc.parameters(), "lr": self.supervised_lr},
-                {"params": self.model.layer4.parameters(), "lr": self.supervised_lr * 0.01},
+                # {"params": self.model.layer4.parameters(), "lr": self.supervised_lr * 0.01},
             ]
         )
 
         criterions = [{"loss": SupConLoss(temperature=0.5).cuda(), "weight": 1}]
         criterions_cls = [{"loss": nn.CrossEntropyLoss().cuda(), "weight": 1}]
 
-        batch_size = int(self.config["batch_size"] / world_size)
+        batch_size = int(self.config["batch_size"])
 
-        weights = make_weights_for_balanced_classes(train_dataset.labels)
+        weights = make_weights_for_balanced_classes(
+            train_dataset.labels
+            if self.config["label_type"] == "moa"
+            else train_dataset.comp_labels
+        )
+        print("Sample Weights: ", weights)
         sampler = WeightedRandomSampler(weights, len(weights))
         train_dataloader = DataLoader(
             train_dataset,
@@ -185,7 +195,7 @@ class SupConDistTrainer:
                 },
                 os.path.join(self.save_folder, f"model_ckpt.pth"),
             )
-            if epoch % 5 == 0:
+            if epoch % 10 == 0:
                 train_losses = self._train_supervised_epoch(
                     train_dataloader, optimizer_cls, criterions_cls, epoch
                 )

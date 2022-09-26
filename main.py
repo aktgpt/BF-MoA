@@ -23,7 +23,6 @@ from tqdm import tqdm
 
 import models as models
 import data as datasets
-from data.bf_dataset import BFDataset
 from train import main as train
 from scipy import signal
 from utils.filecopyfast import ThreadedCopy
@@ -56,7 +55,13 @@ def transfer_files(src_dir, file_list, dst_dir, bg_gen=False):
             if not os.path.exists(new_image_folder):
                 os.makedirs(new_image_folder)
 
-            img_paths.append(src_dir + img_path)
+            img_full_path = (
+                src_dir + img_path
+                if os.path.isfile(src_dir + img_path)
+                else src_dir + img_path.replace("non_grit", "grit")
+            )
+
+            img_paths.append(img_full_path)
             new_img_paths.append(dst_dir + img_path)
 
     ThreadedCopy(img_paths, new_img_paths)
@@ -160,7 +165,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument("-r", "--random_seed", help="random_seed", default=42, type=int)
     args = argparser.parse_args(
-        # ["-c", "configs/bf_bgcorrect.json", "-d", "/proj/haste_berzelius/datasets/specs"]
+        # ["-c", "configs/bf_non_grit.json", "-d", "/proj/haste_berzelius/datasets/specs"]
     )
 
     config_path = args.conf

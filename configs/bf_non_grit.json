@@ -24,7 +24,7 @@
             "dmso"
         ],
         "bg_correct": false,
-        "batch_size": 32,
+        "batch_size": 8,
         "aug_type": "basic_aug",
         "modality": "bf",
         "mean_mode": "mean"

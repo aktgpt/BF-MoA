@@ -74,7 +74,7 @@ class BaseDistTrainer:
 
         self.model = DDP(model, device_ids=[rank])  # , find_unused_parameters=True)
 
-        # optimizer = optim.AdamW(self.model.parameters(), lr=self.lr, weight_decay=self.wd)
+        # optimizer = optim.AdamW(self.model.parameters())
         optimizer = optim.SGD(
             self.model.parameters(), lr=self.lr, momentum=0.9, weight_decay=self.wd
         )
@@ -256,7 +256,7 @@ class BaseDistTrainer:
                 loss += criterion["weight"] * loss_class
 
             loss.backward()
-            # torch.nn.utils.clip_grad_norm_(self.model.parameters(), 1)
+            # torch.nn.utils.clip_grad_norm_(self.model.parameters(), 1.0)
             optimizer.step()
 
             total_loss += loss.item()

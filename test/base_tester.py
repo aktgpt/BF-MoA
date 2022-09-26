@@ -1,34 +1,33 @@
 import os
 import random
 
+import colorcet as cc
 import cv2
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import seaborn as sns
 import torch
 import torch.nn.functional as F
 import torchvision
+import umap
 import utils.colormaps as cmaps
 from numpy.lib.shape_base import apply_along_axis
 from PIL import Image
-from torch import nn, optim
-from torchvision.utils import make_grid, save_image
-from tqdm import tqdm
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-from utils.metrics import get_metrics
-from torch.multiprocessing import Lock
+from sklearn.decomposition import NMF, PCA
 from sklearn.metrics import (
-    confusion_matrix,
-    precision_score,
-    recall_score,
     accuracy_score,
     balanced_accuracy_score,
+    confusion_matrix,
     f1_score,
+    precision_score,
+    recall_score,
 )
-from sklearn.decomposition import NMF, PCA
-import umap
-import colorcet as cc
+from torch import nn
+from torch.multiprocessing import Lock
+from torchvision.utils import make_grid, save_image
+from tqdm import tqdm
+from utils.metrics import get_metrics
 
 # moas = [
 #     "Aurora kinase inhibitor",
@@ -146,7 +145,11 @@ class BaseTester:
                 output, feature_map = self.model(input)
 
                 # if batch_idx % 10 == 0:
-                #     self.make_nmf(input, feature_map, batch_idx)
+                #     self.make_nmf(input, feature_map, batch_idx, self.nmf_folder)
+
+                # feature_map = torch.flatten(
+                #     torch.nn.functional.adaptive_avg_pool2d(feature_map, (1, 1)), start_dim=1
+                # )
 
                 if self.multilabel:
                     preds = (torch.sigmoid(output) > 0.5).float()
@@ -247,7 +250,8 @@ class BaseTester:
             total_loss_desc.set_description_str(f"Test Results Total Accuracy: {accuracy:.5f}")
             return accuracy
 
-    def make_nmf(self, input, feature_map, batch_idx):
+    @staticmethod
+    def make_nmf(input, feature_map, batch_idx, nmf_folder):
         _, _, w_im, h_im = input.shape
         images = (
             make_grid(input, normalize=True, nrow=8, padding=0)
@@ -277,15 +281,19 @@ class BaseTester:
             else:
                 nmf_images[i // 8] = np.hstack([nmf_images[i // 8], cv2.resize(a1, (w_im, h_im))])
         nmf_images = np.concatenate(nmf_images)
-        fig, ax = plt.subplots(1, 2)
+        fig, ax = plt.subplots(2, 1)
         ax[0].imshow(images)
         ax[0].set_xticks([])
         ax[0].set_yticks([])
+        ax[0].set_aspect("equal")
         ax[1].imshow(nmf_images)
         ax[1].set_xticks([])
         ax[1].set_yticks([])
+        ax[1].set_aspect("equal")
+        fig.subplots_adjust(wspace=0, hspace=0)
+        fig.tight_layout()
         plt.savefig(
-            os.path.join(self.nmf_folder, f"{batch_idx}_nmf_images.png"),
+            os.path.join(nmf_folder, f"{batch_idx}_nmf_images.png"),
             dpi=500,
             bbox_inches="tight",
             pad_inches=0.0,

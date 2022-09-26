@@ -227,7 +227,7 @@ class BFSupConDataset(Dataset):
             augmented = self.geo_transform(image=image)
             xj = augmented["image"]
 
-        if self.colour_transform:
+        if self.colour_transform: 
             augmented = self.colour_transform(image=xi)
             xi = augmented["image"]
             augmented = self.colour_transform(image=xj)
