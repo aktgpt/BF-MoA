@@ -82,7 +82,7 @@ class BasicBlock(nn.Module):
         self.stride = stride
 
     def forward(self, x):
-        identity = x 
+        identity = x
 
         out = self.conv1(x)
         out = self.bn1(out)
@@ -99,7 +99,7 @@ class BasicBlock(nn.Module):
 
         return out
 
- 
+
 class Bottleneck(nn.Module):
     expansion = 4
 

@@ -1,4 +1,7 @@
 import albumentations as aug
+from albumentations.core.composition import BaseCompose, TransformsSeqType
+import random
+import typing
 
 
 def get_aug(aug_type):
@@ -26,29 +29,11 @@ def get_aug(aug_type):
                     min_width=16,
                 ),
             ],
-            # p=0.2,
             p=1.0,
         )
     ]
-    if "ch_aug" in aug_type:
-        colour_transforms = aug.Compose(
-            [
-                aug.ToFloat(max_value=65535.0),
-                # aug.PerChannel(color_augs, p=0.5),
-                aug.PerChannel2(color_augs, n_channels_to_aug=1, p=0.5),
-                aug.FromFloat(dtype="float64", max_value=65535.0),
-            ]
-        )
-    elif "global_aug" in aug_type:
-        colour_transforms = aug.Compose(
-            [
-                aug.ToFloat(max_value=65535.0),
-                aug.Compose(color_augs, p=0.5),
-                aug.FromFloat(dtype="float64", max_value=65535.0),
-            ]
-        )
-    else:
-        colour_transforms = None
+
+    colour_transforms = None
 
     valid_transforms = aug.Compose(
         [aug.Resize(1080, 1080, p=1.0), aug.CenterCrop(1024, 1024, p=1.0)]

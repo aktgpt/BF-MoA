@@ -29,25 +29,6 @@ from torchvision.utils import make_grid, save_image
 from tqdm import tqdm
 from utils.metrics import get_metrics
 
-# moas = [
-#     "Aurora kinase inhibitor",
-#     "tubulin polymerization inhibitor",
-#     "JAK inhibitor",
-#     "protein synthesis inhibitor",
-#     "HDAC inhibitor",
-#     "topoisomerase inhibitor",
-#     "PARP inhibitor",
-#     "ATPase inhibitor",
-#     "retinoid receptor agonist",
-#     "HSP inhibitor",
-#     "dmso",
-# ]
-# moas = np.sort(moas)
-
-# site_conversion = pd.DataFrame(
-#     {"bf_sites": ["s1", "s2", "s3", "s4", "s5"], "f_sites": ["s2", "s4", "s5", "s6", "s8"]}
-# )
-
 
 class BaseTester:
     def __init__(self, config, save_folder):

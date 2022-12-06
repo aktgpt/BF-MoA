@@ -72,9 +72,8 @@ class BaseDistTrainer:
         torch.cuda.set_device(rank)
         model = model.to(rank)
 
-        self.model = DDP(model, device_ids=[rank])  # , find_unused_parameters=True)
+        self.model = DDP(model, device_ids=[rank])
 
-        # optimizer = optim.AdamW(self.model.parameters())
         optimizer = optim.SGD(
             self.model.parameters(), lr=self.lr, momentum=0.9, weight_decay=self.wd
         )
@@ -185,15 +184,7 @@ class BaseDistTrainer:
                             },
                             os.path.join(self.save_folder, f"model_best_accuracy.pth"),
                         )
-            # if epoch % 100 == 0:
-            #     torch.save(
-            #         {
-            #             "model_state_dict": self.model.state_dict(),
-            #             "epoch": epoch,
-            #             "epoch_accuracy": epoch_accuracy,
-            #         },
-            #         os.path.join(self.save_folder, f"model_ckpt_epoch_{epoch}.pth"),
-            #     )
+
         cleanup()
         return self.save_folder
 
@@ -256,7 +247,6 @@ class BaseDistTrainer:
                 loss += criterion["weight"] * loss_class
 
             loss.backward()
-            # torch.nn.utils.clip_grad_norm_(self.model.parameters(), 1.0)
             optimizer.step()
 
             total_loss += loss.item()
