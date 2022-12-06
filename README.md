@@ -15,7 +15,7 @@ This paper is also accepted as a poster presentation at 2022 NeurIPS conference 
 
 <p>
     <img src="readme_images/BF-MOA figures.png" alt="drawing" style="width:1200px;"/>
-    <center>BF and FL images, activation heatmaps and radar plots for two compounds that were considerably better predicted by BF than both FL and CP models. The BF images show a maximum projection of the 6 z-planes. The FL images show a merge of the 5 channels with nuclei in blue, ER in cyan, RNA in grey, Golgi/F-actin in green and mitochondria in red. In the heatmaps the outlines of the nuclei and cells from CP are provided. The scale bars in the images represent 20 uM. The radar plots show the affected morphological features according to the CP data.
+    <center>BF and FL images, activation heatmaps and radar plots for two compounds that were considerably better predicted by BF than both FL and CP models. The BF images show an overlay of the 6 z-planes. The FL images show a merge of the 5 channels with nuclei in blue, ER in cyan, RNA in grey, Golgi/F-actin in green and mitochondria in red. In the heatmaps the outlines of the nuclei and cells from CP are provided. The scale bars in the images represent 20 uM. The radar plots show the affected morphological features according to the CP data.
 </center>
 </p>
 
@@ -27,16 +27,16 @@ The content and structure of the repo is given by the following:
 
 ```sh
 .
-├── README.md
 ├── analysis            : .ipynb files for analysing the results of the trained models and producing the figures included in the paper
-├── configs             : .json files for running the models to predict the mechanism of action
+├── cellprofiler        : .ipynb file for running the models based on the CellProfiler features
+├── configs             : .json files for running the brightfiled and fluorescence models to predict the mechanism of action
 ├── data                : python scripts for loading the datasets
 ├── models              : python scripts for the ResNet architecture
-├── preprocessing       : .json files for running the models to predict the mechanism of action
+├── preprocessing       : scripts for converting the images to numpy, splitting the data and computing normalisation statistics
+├── stats               : .csv files for image statistics and train/val/test splits
 ├── test                : scripts requied when running the models in test mode
-├── train               : scripts requied when running the models in train mode
-├── utils               : utility functions                     
-└── stats               : .csv files for image statistics and train/val/test splits 
+├── train               : scripts requied when running the models in train mode              
+└── utlis               : utility functions
     
 ```
 
