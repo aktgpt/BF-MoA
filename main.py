@@ -27,6 +27,9 @@ from train import main as train
 from scipy import signal
 from utils.filecopyfast import ThreadedCopy
 from utils.get_aug import get_aug
+from efficientnet_pytorch import EfficientNet
+from models.densenet import DenseNet
+from models.resnet import ResNet
 
 
 def set_random_seed(seed):
@@ -123,16 +126,16 @@ def app(config):
     with open(os.path.join(exp_folder_config, "config_exp.json"), "w") as fp:
         json.dump(config, fp)
 
-    transfer_files(
-        config["data_path"],
-        [
-            config["data"]["train_csv_path"],
-            config["data"]["val_csv_path"],
-            config["data"]["test_csv_path"],
-        ],
-        config["data"]["data_folder"],
-        bg_gen=config["data"]["bg_correct"],
-    )
+    # transfer_files(
+    #     config["data_path"],
+    #     [
+    #         config["data"]["train_csv_path"],
+    #         config["data"]["val_csv_path"],
+    #         config["data"]["test_csv_path"],
+    #     ],
+    #     config["data"]["data_folder"],
+    #     bg_gen=config["data"]["bg_correct"],
+    # )
 
     valid_loader = DataLoader(
         valid_dataset,
@@ -148,7 +151,12 @@ def app(config):
         prefetch_factor=8,
         persistent_workers=True,
     )
-    model = getattr(models, config["model"]["type"])(**config["model"]["args"])
+    if "resnet" in model_name:
+        model = ResNet(**config["model"]["args"])
+    elif "efficientnet" in model_name:
+        model = EfficientNet.from_name(**config["model"]["args"])
+    elif "densenet" in model_name:
+        model = DenseNet(**config["model"]["args"])
 
     train.run(config["train"], train_dataset, valid_loader, model, exp_folder_config)
     test.run(config, test_loader, model, exp_folder_config)
