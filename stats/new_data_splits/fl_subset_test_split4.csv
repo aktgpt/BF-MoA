@@ -1,0 +1,276 @@
+plate,well,site,bf_site,compound,path,moa
+bfmoalive57-AG-48h-P3-L2,B15,s2,s1,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/B15_s2_x1_y0_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,B15,s4,s2,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/B15_s4_x0_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,B15,s5,s3,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/B15_s5_x1_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,B15,s6,s4,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/B15_s6_x2_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,B15,s8,s5,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/B15_s8_x1_y2_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,B17,s2,s1,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/B17_s2_x1_y0_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,B17,s4,s2,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/B17_s4_x0_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,B17,s5,s3,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/B17_s5_x1_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,B17,s6,s4,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/B17_s6_x2_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,B17,s8,s5,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/B17_s8_x1_y2_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,C21,s2,s1,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/C21_s2_x1_y0_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,C21,s4,s2,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/C21_s4_x0_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,C21,s5,s3,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/C21_s5_x1_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,C21,s6,s4,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/C21_s6_x2_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,C21,s8,s5,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/C21_s8_x1_y2_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,C22,s2,s1,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/C22_s2_x1_y0_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,C22,s4,s2,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/C22_s4_x0_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,C22,s5,s3,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/C22_s5_x1_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,C22,s6,s4,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/C22_s6_x2_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,C22,s8,s5,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/C22_s8_x1_y2_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,D05,s2,s1,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D05_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,D05,s4,s2,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D05_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,D05,s5,s3,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D05_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,D05,s6,s4,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D05_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,D05,s8,s5,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D05_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,D09,s2,s1,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D09_s2_x1_y0_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,D09,s4,s2,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D09_s4_x0_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,D09,s5,s3,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D09_s5_x1_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,D09,s6,s4,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D09_s6_x2_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,D09,s8,s5,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D09_s8_x1_y2_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,D11,s2,s1,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D11_s2_x1_y0_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,D11,s4,s2,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D11_s4_x0_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,D11,s5,s3,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D11_s5_x1_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,D11,s6,s4,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D11_s6_x2_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,D11,s8,s5,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D11_s8_x1_y2_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,D15,s2,s1,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D15_s2_x1_y0_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,D15,s4,s2,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D15_s4_x0_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,D15,s5,s3,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D15_s5_x1_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,D15,s6,s4,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D15_s6_x2_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,D15,s8,s5,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D15_s8_x1_y2_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,D16,s2,s1,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D16_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,D16,s4,s2,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D16_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,D16,s5,s3,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D16_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,D16,s6,s4,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D16_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,D16,s8,s5,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D16_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,D17,s2,s1,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D17_s2_x1_y0_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,D17,s4,s2,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D17_s4_x0_y1_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,D17,s5,s3,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D17_s5_x1_y1_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,D17,s6,s4,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D17_s6_x2_y1_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,D17,s8,s5,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/D17_s8_x1_y2_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,E07,s2,s1,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/E07_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,E07,s4,s2,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/E07_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,E07,s5,s3,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/E07_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,E07,s6,s4,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/E07_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,E07,s8,s5,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/E07_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,E14,s2,s1,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/E14_s2_x1_y0_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,E14,s4,s2,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/E14_s4_x0_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,E14,s5,s3,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/E14_s5_x1_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,E14,s6,s4,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/E14_s6_x2_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,E14,s8,s5,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/E14_s8_x1_y2_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,F04,s2,s1,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F04_s2_x1_y0_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,F04,s4,s2,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F04_s4_x0_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,F04,s5,s3,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F04_s5_x1_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,F04,s6,s4,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F04_s6_x2_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,F04,s8,s5,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F04_s8_x1_y2_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,F08,s2,s1,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F08_s2_x1_y0_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,F08,s4,s2,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F08_s4_x0_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,F08,s5,s3,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F08_s5_x1_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,F08,s6,s4,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F08_s6_x2_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,F08,s8,s5,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F08_s8_x1_y2_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,F13,s2,s1,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F13_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,F13,s4,s2,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F13_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,F13,s5,s3,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F13_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,F13,s6,s4,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F13_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,F13,s8,s5,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F13_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,F19,s2,s1,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F19_s2_x1_y0_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,F19,s4,s2,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F19_s4_x0_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,F19,s5,s3,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F19_s5_x1_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,F19,s6,s4,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F19_s6_x2_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,F19,s8,s5,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F19_s8_x1_y2_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,F23,s2,s1,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F23_s2_x1_y0_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,F23,s4,s2,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F23_s4_x0_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,F23,s5,s3,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F23_s5_x1_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,F23,s6,s4,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F23_s6_x2_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,F23,s8,s5,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/F23_s8_x1_y2_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,G02,s2,s1,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G02_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,G02,s4,s2,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G02_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,G02,s5,s3,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G02_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,G02,s6,s4,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G02_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,G02,s8,s5,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G02_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,G04,s2,s1,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G04_s2_x1_y0_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,G04,s4,s2,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G04_s4_x0_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,G04,s5,s3,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G04_s5_x1_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,G04,s6,s4,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G04_s6_x2_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,G04,s8,s5,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G04_s8_x1_y2_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,G18,s2,s1,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G18_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,G18,s4,s2,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G18_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,G18,s5,s3,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G18_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,G18,s6,s4,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G18_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,G18,s8,s5,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G18_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,G20,s2,s1,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G20_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,G20,s4,s2,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G20_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,G20,s5,s3,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G20_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,G20,s6,s4,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G20_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,G20,s8,s5,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G20_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,G23,s2,s1,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G23_s2_x1_y0_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,G23,s4,s2,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G23_s4_x0_y1_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,G23,s5,s3,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G23_s5_x1_y1_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,G23,s6,s4,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G23_s6_x2_y1_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,G23,s8,s5,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/G23_s8_x1_y2_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,H04,s2,s1,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H04_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,H04,s4,s2,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H04_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,H04,s5,s3,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H04_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,H04,s6,s4,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H04_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,H04,s8,s5,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H04_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,H06,s2,s1,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H06_s2_x1_y0_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,H06,s4,s2,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H06_s4_x0_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,H06,s5,s3,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H06_s5_x1_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,H06,s6,s4,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H06_s6_x2_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,H06,s8,s5,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H06_s8_x1_y2_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,H12,s2,s1,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H12_s2_x1_y0_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,H12,s4,s2,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H12_s4_x0_y1_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,H12,s5,s3,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H12_s5_x1_y1_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,H12,s6,s4,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H12_s6_x2_y1_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,H12,s8,s5,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H12_s8_x1_y2_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,H20,s2,s1,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H20_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,H20,s4,s2,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H20_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,H20,s5,s3,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H20_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,H20,s6,s4,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H20_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,H20,s8,s5,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/H20_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,I05,s2,s1,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I05_s2_x1_y0_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,I05,s4,s2,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I05_s4_x0_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,I05,s5,s3,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I05_s5_x1_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,I05,s6,s4,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I05_s6_x2_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,I05,s8,s5,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I05_s8_x1_y2_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,I06,s2,s1,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I06_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,I06,s4,s2,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I06_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,I06,s5,s3,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I06_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,I06,s6,s4,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I06_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,I06,s8,s5,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I06_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,I14,s2,s1,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I14_s2_x1_y0_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,I14,s4,s2,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I14_s4_x0_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,I14,s5,s3,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I14_s5_x1_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,I14,s6,s4,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I14_s6_x2_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,I14,s8,s5,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I14_s8_x1_y2_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,I15,s2,s1,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I15_s2_x1_y0_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,I15,s4,s2,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I15_s4_x0_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,I15,s5,s3,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I15_s5_x1_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,I15,s6,s4,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I15_s6_x2_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,I15,s8,s5,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I15_s8_x1_y2_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,I17,s2,s1,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I17_s2_x1_y0_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,I17,s4,s2,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I17_s4_x0_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,I17,s5,s3,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I17_s5_x1_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,I17,s6,s4,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I17_s6_x2_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,I17,s8,s5,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I17_s8_x1_y2_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,I18,s2,s1,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I18_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,I18,s4,s2,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I18_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,I18,s5,s3,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I18_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,I18,s6,s4,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I18_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,I18,s8,s5,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/I18_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,J03,s2,s1,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/J03_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,J03,s4,s2,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/J03_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,J03,s5,s3,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/J03_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,J03,s6,s4,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/J03_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,J03,s8,s5,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/J03_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,K12,s2,s1,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K12_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,K12,s4,s2,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K12_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,K12,s5,s3,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K12_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,K12,s6,s4,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K12_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,K12,s8,s5,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K12_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,K16,s2,s1,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K16_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,K16,s4,s2,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K16_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,K16,s5,s3,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K16_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,K16,s6,s4,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K16_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,K16,s8,s5,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K16_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,K18,s2,s1,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K18_s2_x1_y0_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,K18,s4,s2,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K18_s4_x0_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,K18,s5,s3,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K18_s5_x1_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,K18,s6,s4,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K18_s6_x2_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,K18,s8,s5,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K18_s8_x1_y2_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,K22,s2,s1,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K22_s2_x1_y0_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,K22,s4,s2,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K22_s4_x0_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,K22,s5,s3,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K22_s5_x1_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,K22,s6,s4,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K22_s6_x2_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,K22,s8,s5,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/K22_s8_x1_y2_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,L03,s2,s1,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L03_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,L03,s4,s2,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L03_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,L03,s5,s3,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L03_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,L03,s6,s4,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L03_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,L03,s8,s5,c38,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L03_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,L08,s2,s1,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L08_s2_x1_y0_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,L08,s4,s2,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L08_s4_x0_y1_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,L08,s5,s3,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L08_s5_x1_y1_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,L08,s6,s4,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L08_s6_x2_y1_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,L08,s8,s5,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L08_s8_x1_y2_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,L09,s2,s1,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L09_s2_x1_y0_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,L09,s4,s2,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L09_s4_x0_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,L09,s5,s3,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L09_s5_x1_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,L09,s6,s4,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L09_s6_x2_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,L09,s8,s5,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L09_s8_x1_y2_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,L10,s2,s1,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L10_s2_x1_y0_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,L10,s4,s2,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L10_s4_x0_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,L10,s5,s3,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L10_s5_x1_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,L10,s6,s4,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L10_s6_x2_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,L10,s8,s5,c29,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L10_s8_x1_y2_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,L13,s2,s1,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L13_s2_x1_y0_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,L13,s4,s2,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L13_s4_x0_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,L13,s5,s3,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L13_s5_x1_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,L13,s6,s4,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L13_s6_x2_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,L13,s8,s5,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L13_s8_x1_y2_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,L22,s2,s1,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L22_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,L22,s4,s2,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L22_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,L22,s5,s3,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L22_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,L22,s6,s4,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L22_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,L22,s8,s5,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/L22_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,M02,s2,s1,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/M02_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,M02,s4,s2,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/M02_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,M02,s5,s3,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/M02_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,M02,s6,s4,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/M02_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,M02,s8,s5,c11,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/M02_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,M10,s2,s1,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/M10_s2_x1_y0_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,M10,s4,s2,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/M10_s4_x0_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,M10,s5,s3,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/M10_s5_x1_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,M10,s6,s4,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/M10_s6_x2_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,M10,s8,s5,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/M10_s8_x1_y2_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,M21,s2,s1,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/M21_s2_x1_y0_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,M21,s4,s2,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/M21_s4_x0_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,M21,s5,s3,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/M21_s5_x1_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,M21,s6,s4,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/M21_s6_x2_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,M21,s8,s5,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/M21_s8_x1_y2_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,N03,s2,s1,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/N03_s2_x1_y0_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,N03,s4,s2,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/N03_s4_x0_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,N03,s5,s3,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/N03_s5_x1_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,N03,s6,s4,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/N03_s6_x2_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,N03,s8,s5,c57,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/N03_s8_x1_y2_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,N09,s2,s1,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/N09_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,N09,s4,s2,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/N09_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,N09,s5,s3,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/N09_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,N09,s6,s4,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/N09_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,N09,s8,s5,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/N09_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,N13,s2,s1,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/N13_s2_x1_y0_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,N13,s4,s2,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/N13_s4_x0_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,N13,s5,s3,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/N13_s5_x1_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,N13,s6,s4,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/N13_s6_x2_y1_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,N13,s8,s5,c53,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/N13_s8_x1_y2_Fluorescence_405_nm_Ex.npy,HDAC inhibitor
+bfmoalive57-AG-48h-P3-L2,O02,s2,s1,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O02_s2_x1_y0_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,O02,s4,s2,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O02_s4_x0_y1_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,O02,s5,s3,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O02_s5_x1_y1_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,O02,s6,s4,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O02_s6_x2_y1_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,O02,s8,s5,dmso,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O02_s8_x1_y2_Fluorescence_405_nm_Ex.npy,dmso
+bfmoalive57-AG-48h-P3-L2,O03,s2,s1,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O03_s2_x1_y0_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,O03,s4,s2,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O03_s4_x0_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,O03,s5,s3,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O03_s5_x1_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,O03,s6,s4,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O03_s6_x2_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,O03,s8,s5,c17,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O03_s8_x1_y2_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,O10,s2,s1,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O10_s2_x1_y0_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,O10,s4,s2,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O10_s4_x0_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,O10,s5,s3,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O10_s5_x1_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,O10,s6,s4,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O10_s6_x2_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,O10,s8,s5,c24,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O10_s8_x1_y2_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,O14,s2,s1,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O14_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,O14,s4,s2,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O14_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,O14,s5,s3,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O14_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,O14,s6,s4,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O14_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,O14,s8,s5,c35,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O14_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,O16,s2,s1,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O16_s2_x1_y0_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,O16,s4,s2,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O16_s4_x0_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,O16,s5,s3,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O16_s5_x1_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,O16,s6,s4,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O16_s6_x2_y1_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,O16,s8,s5,c31,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O16_s8_x1_y2_Fluorescence_405_nm_Ex.npy,protein synthesis inhibitor
+bfmoalive57-AG-48h-P3-L2,O23,s2,s1,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O23_s2_x1_y0_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,O23,s4,s2,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O23_s4_x0_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,O23,s5,s3,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O23_s5_x1_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,O23,s6,s4,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O23_s6_x2_y1_Fluorescence_405_nm_Ex.npy,PARP inhibitor
+bfmoalive57-AG-48h-P3-L2,O23,s8,s5,c3,/scratch2-shared/phil/bf_moa_live/AG-48h-P3-L2_final_time_point/numpy_data/fl/O23_s8_x1_y2_Fluorescence_405_nm_Ex.npy,PARP inhibitor
