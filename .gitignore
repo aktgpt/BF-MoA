@@ -44,3 +44,4 @@ nodeLanguageServer.*/**
 dist/**
 ._*
 .vscode/*
+*.npy

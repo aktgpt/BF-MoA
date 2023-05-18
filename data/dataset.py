@@ -18,6 +18,16 @@ def dmso_difference(im, dmso_mean, dmso_std):
     return im - dmso_mean
 
 
+def min_max_standardize(im, min_perc=1, max_perc=99):
+    min_val = np.percentile(im, min_perc)
+    max_val = np.percentile(im, max_perc)
+    ## make them -1 to 1
+    im = (im - min_val) / (max_val - min_val)
+    im = 2 * im - 1
+    # print(max_val - min_val, min_val, max_val, im.min(), im.max())
+    return im
+
+
 def get_normalization_stats(df, row, normalization_type, modality, mean_mode="mean"):
     plate = row.plate
     well = row.well
@@ -128,6 +138,8 @@ def get_normalization_stats(df, row, normalization_type, modality, mean_mode="me
             & (df["site"] == site),
             std_cols,
         ].values
+    else:
+        dmso_mean, dmso_std = None, None
     return dmso_mean, dmso_std
 
 
@@ -142,7 +154,7 @@ class MOADataset(Dataset):
         self,
         root,
         csv_file,
-        normalize="dmso",  # False, "well", "dmso", "image", "plate"
+        normalize="dmso",  # False, "well", "dmso", "image", "plate", "standard"
         dmso_stats_path=None,
         moas=None,
         geo_transform=None,
@@ -199,10 +211,17 @@ class MOADataset(Dataset):
         if self.normalize:
             if self.bg_correct:
                 image = image + min_c
+            # if self.normalize == "allc":
+            #     mean = np.mean(image)
+            #     std = np.std(image)
+            # else:
             mean, std = get_normalization_stats(
                 self.dmso_stats_df, row, self.normalize, self.modality, self.mean_mode
             )
-            image = dmso_normalization(image, mean, std)
+            if mean is None:
+                image = min_max_standardize(image)
+            else:
+                image = dmso_normalization(image, mean, std)
 
         # Transpose to CNN shape
         image = torch.tensor(image.transpose(2, 0, 1), dtype=torch.float32)
@@ -214,4 +233,3 @@ class MOADataset(Dataset):
         well = row.well
 
         return image, target, plate, site, compound, well
-

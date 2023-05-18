@@ -72,14 +72,14 @@ def transfer_files(src_dir, file_list, dst_dir, bg_gen=False):
 
 
 def app(config):
-    exp_folder = os.path.join(config["exp_folder"], config["exp_name"], config["exp_mode"])
-    if not os.path.exists(exp_folder):
-        os.makedirs(exp_folder)
-
     geo_transforms, colour_transforms, valid_transforms = get_aug(config["data"]["aug_type"])
     print("Geo transforms: {}".format(geo_transforms), flush=True)
     print("Colour transforms: {}".format(colour_transforms), flush=True)
     print("Valid transforms: {}".format(valid_transforms), flush=True)
+
+    exp_folder = os.path.join(config["exp_folder"], config["exp_name"], config["exp_mode"])
+    if not os.path.exists(exp_folder):
+        os.makedirs(exp_folder)
 
     train_dataset = getattr(datasets, config["data"]["dataset"])(
         root=config["data"]["data_folder"],
@@ -118,6 +118,23 @@ def app(config):
         mean_mode=config["data"]["mean_mode"],
     )
 
+    # for i in range(1000, 2000):
+    #     x = train_dataset.__getitem__(i)[0]
+    #     x_norm = ((x - x.min()) / (x.max() - x.min())).permute(1, 2, 0).numpy()
+    # plt.imshow(x_norm[:, :, :3])
+    # plt.show()
+
+    transfer_files(
+        config["data_path"],
+        [
+            config["data"]["train_csv_path"],
+            config["data"]["val_csv_path"],
+            config["data"]["test_csv_path"],
+        ],
+        config["data"]["data_folder"],
+        bg_gen=config["data"]["bg_correct"],
+    )
+
     model_name = config["model"]["args"]["model_name"]
     exp_folder_config = os.path.join(exp_folder, f'{config["model"]["type"]}_{model_name}')
 
@@ -125,17 +142,6 @@ def app(config):
         os.makedirs(exp_folder_config)
     with open(os.path.join(exp_folder_config, "config_exp.json"), "w") as fp:
         json.dump(config, fp)
-
-    # transfer_files(
-    #     config["data_path"],
-    #     [
-    #         config["data"]["train_csv_path"],
-    #         config["data"]["val_csv_path"],
-    #         config["data"]["test_csv_path"],
-    #     ],
-    #     config["data"]["data_folder"],
-    #     bg_gen=config["data"]["bg_correct"],
-    # )
 
     valid_loader = DataLoader(
         valid_dataset,
@@ -173,7 +179,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument("-r", "--random_seed", help="random_seed", default=42, type=int)
     args = argparser.parse_args(
-        # ["-c", "configs/bf_non_grit.json", "-d", "/proj/haste_berzelius/datasets/specs"]
+        # ["-c", "configs/bf_non_grit_bgcorrect.json", "-d", "/proj/haste_berzelius/datasets/specs"]
     )
 
     config_path = args.conf

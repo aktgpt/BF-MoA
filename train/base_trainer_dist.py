@@ -126,7 +126,7 @@ class BaseDistTrainer:
 
             optimizer.load_state_dict(self.checkpoint["optimizer_state_dict"])
             self.model.load_state_dict(self.checkpoint["model_state_dict"])
-            print(f"Loading checkpoint from {start_epoch}")
+            print(f"Loading checkpoint from {start_epoch}", flush=True)
         else:
             start_epoch = 1
             all_train_losses_log = [[] for i in range(len(criterions))]
@@ -142,7 +142,6 @@ class BaseDistTrainer:
             if rank == 0:
                 for i in range(len(all_train_losses_log)):
                     all_train_losses_log[i].extend(train_losses[i])
-
                     df_train = pd.DataFrame(all_train_losses_log).transpose()
                     df_train.columns = [x["loss"].__class__.__name__ for x in criterions]
                     if epoch % 5 == 0:
@@ -230,7 +229,7 @@ class BaseDistTrainer:
                 lr = self.adjust_learning_rate(
                     optimizer, dataloader, batch_idx + epoch * len(dataloader)
                 )
-                print(epoch, batch_idx, lr)
+                print(epoch, batch_idx, lr, flush=True)
 
             for param in self.model.parameters():
                 param.grad = None

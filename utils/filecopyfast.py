@@ -19,7 +19,7 @@ class ThreadedCopy:
 
         self.totalFiles = len(src_file_list)
 
-        print(str(self.totalFiles) + " files to copy.")
+        print(str(self.totalFiles) + " files to copy.", flush=True)
         self.threadWorkerCopy(src_file_list, dest_file_list)
 
     def CopyWorker(self):
@@ -30,7 +30,7 @@ class ThreadedCopy:
             with self.lock:
                 self.copyCount += 1
                 percent = (self.copyCount * 100) / self.totalFiles
-                print(str(percent) + " percent copied.")
+                print(str(percent) + " percent copied.", flush=True)
 
     def threadWorkerCopy(self, fileNameList, dest_file_list):
         for i in range(16):
